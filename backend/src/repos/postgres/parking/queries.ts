@@ -35,4 +35,4 @@ WHERE
     id = $1
 `;
 
-export { SELECT_BY_ID, SELECT_ALL };
+export { SELECT_ALL, SELECT_BY_ID };
