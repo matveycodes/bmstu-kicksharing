@@ -6,13 +6,25 @@ import { GetUsersResponse } from "../types/api";
 const getUsers = async (
   config?: Omit<RequestConfig, "params">
 ): Promise<User[]> => {
-  const { data } = await client.get<GetUsersResponse>("/users/", config);
+  const { data: initialData } = await client.get<GetUsersResponse>("/users/", {
+    params: { pageSize: 1 },
+    ...config,
+  });
 
-  return data;
+  if (initialData.totalCount <= 1) {
+    return initialData.results;
+  }
+
+  const { data } = await client.get<GetUsersResponse>("/users/", {
+    params: { pageSize: initialData.totalCount },
+    ...config,
+  });
+
+  return data.results;
 };
 
 const blockUser = async (id: string) => {
-  await client.post(`/users/${id}/block/`);
+  await client.patch(`/users/${id}/`, { status: "blocked" });
 };
 
 export { getUsers, blockUser };

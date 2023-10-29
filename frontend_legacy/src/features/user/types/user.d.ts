@@ -1,12 +1,12 @@
 interface User {
   id: string;
   status: string;
-  is_active: boolean;
+  isActive: boolean;
   role: string;
-  date_joined: string;
-  middle_name: string | null;
-  last_name: string | null;
-  first_name: string | null;
+  dateJoined: string;
+  middleName: string | null;
+  lastName: string | null;
+  firstName: string | null;
   email: string | null;
   phone: string;
   birthdate: string | null;

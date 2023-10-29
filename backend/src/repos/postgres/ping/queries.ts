@@ -108,11 +108,11 @@ where
   p.battery_level > 0 
   and (s.status = 'enabled') 
   and (
-    r.id is null 
-    or r.date_finished is not null
+    r.id IS NULL 
+    or r.date_finished IS NOT NULL
   ) 
   and (
-    b.id is null 
+    b.id IS NULL
     or b.date_finished < NOW()
   ) 
 order by 
@@ -139,11 +139,11 @@ where
   p.battery_level > 0 
   and (s.status = 'enabled') 
   and (
-    r.id is null 
-    or r.date_finished is not null
+    r.id IS NULL
+    or r.date_finished IS NOT NULL
   ) 
   and (
-    b.id is null 
+    b.id IS NULL
     or b.date_finished < NOW()
   ) 
   and ST_Contains(

@@ -3,7 +3,7 @@ import { Marker, Pane, useMap } from "react-leaflet";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 
-import { Scooter } from "features/scooters";
+import { Ping } from "features/pings";
 
 import marker from "assets/images/icons/scooter.svg";
 
@@ -11,8 +11,8 @@ import { LAYERS_ORDER } from "../config/map";
 import { Layer } from "../types/map";
 
 interface Props extends Omit<ComponentProps<typeof Pane>, "name" | "children"> {
-  scooters: Scooter[];
-  onScooterClick?: (scooter: Scooter) => void;
+  pings: Ping[];
+  onScooterClick?: (ping: Ping) => void;
 }
 
 const scooterIcon = new L.Icon({
@@ -22,14 +22,14 @@ const scooterIcon = new L.Icon({
   iconSize: [20, 23],
 });
 
-const ScootersLayer: FC<Props> = ({ scooters, onScooterClick, ...props }) => {
+const ScootersLayer: FC<Props> = ({ pings, onScooterClick, ...props }) => {
   const map = useMap();
 
-  const onBeforeScooterClick = (scooter: Scooter) => {
-    onScooterClick?.(scooter);
+  const onBeforeScooterClick = (ping: Ping) => {
+    onScooterClick?.(ping);
 
     setTimeout(() => {
-      map.setView([scooter.location.latitude, scooter.location.longitude]);
+      map.setView([ping.location.latitude, ping.location.longitude]);
     }, 500);
   };
 
@@ -40,12 +40,12 @@ const ScootersLayer: FC<Props> = ({ scooters, onScooterClick, ...props }) => {
       {...props}
     >
       <MarkerClusterGroup chunkedLoading>
-        {scooters.map((scooter) => (
+        {pings.map((ping) => (
           <Marker
             icon={scooterIcon}
-            key={scooter.id}
-            position={[scooter.location.latitude, scooter.location.longitude]}
-            eventHandlers={{ click: () => onBeforeScooterClick(scooter) }}
+            key={ping.scooter.id}
+            position={[ping.location.latitude, ping.location.longitude]}
+            eventHandlers={{ click: () => onBeforeScooterClick(ping) }}
           />
         ))}
       </MarkerClusterGroup>

@@ -33,7 +33,7 @@ const CurrentUserActiveRentalsController = () => {
     onSuccess: async (_, rental) => {
       await invalidateRentals();
 
-      const price = formatPrice(rental.total_price);
+      const price = formatPrice(rental.totalPrice);
       toast({
         title: `Аренда успешно завершена, списано ${price}`,
         status: "success",

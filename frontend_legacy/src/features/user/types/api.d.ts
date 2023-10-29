@@ -6,10 +6,10 @@ type GetCurrentUserResponse = Response<User>;
 
 interface UpdateCurrentUserBody {
   birthdate?: string;
-  middle_name?: string;
-  first_name?: string;
+  middleName?: string;
+  firstName?: string;
   email?: string;
-  last_name?: string;
+  lastName?: string;
 }
 
 export { GetCurrentUserResponse, UpdateCurrentUserBody };

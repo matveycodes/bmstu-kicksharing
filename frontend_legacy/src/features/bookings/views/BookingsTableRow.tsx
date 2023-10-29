@@ -21,7 +21,7 @@ const BookingsTableRow: FC<Props> = ({
   return (
     <Tr {...props}>
       <Td>
-        <Center>{booking.scooter_number}</Center>
+        <Center>{booking.scooter.number}</Center>
       </Td>
       <Td>
         <Center>
@@ -34,7 +34,7 @@ const BookingsTableRow: FC<Props> = ({
       <Td>
         <Stack>
           <ScooterActionsController
-            scooterId={booking.scooter_id}
+            scooterId={booking.scooter.id}
             visibleActions={["beep"]}
           />
           <Button

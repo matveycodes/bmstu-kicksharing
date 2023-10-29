@@ -18,7 +18,7 @@ const ActiveRentalsTableRow: FC<Props> = ({ rental, onFinish, ...props }) => {
   return (
     <Tr {...props}>
       <Td>
-        <Center>{rental.scooter_number}</Center>
+        <Center>{rental.scooter.number}</Center>
       </Td>
       <Td>
         <Center>
@@ -26,12 +26,12 @@ const ActiveRentalsTableRow: FC<Props> = ({ rental, onFinish, ...props }) => {
         </Center>
       </Td>
       <Td>
-        <Center>{formatPrice(rental.total_price)}</Center>
+        <Center>{formatPrice(rental.totalPrice)}</Center>
       </Td>
       <Td>
         <Stack>
           <ScooterActionsController
-            scooterId={rental.scooter_id}
+            scooterId={rental.scooter.id}
             visibleActions={["unlock", "turn-lights-on"]}
           />
           <Button

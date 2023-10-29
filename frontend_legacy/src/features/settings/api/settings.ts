@@ -8,7 +8,7 @@ const getSettings = async (
 ): Promise<Setting[]> => {
   const { data } = await client.get<GetSettingsResponse>("/settings/", config);
 
-  return data;
+  return Object.entries(data).map(([name, value]) => ({ name, value }));
 };
 
 export { getSettings };

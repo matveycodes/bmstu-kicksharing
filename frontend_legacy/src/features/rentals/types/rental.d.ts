@@ -1,14 +1,17 @@
+import { User } from "features/user";
+import { Scooter } from "features/scooters";
+
 interface Rental {
   id: string;
-  user_id: string;
-  scooter_id: string;
-  start_price: number;
-  per_minute_price: number;
-  date_started: string;
-  date_finished: string | null;
+  user: User;
+  scooter: Scooter;
+  startPrice: number;
+  perMinutePrice: number;
+  dateStarted: string;
+  dateFinished: string | null;
   duration: number;
-  total_price: number;
-  scooter_number: string;
+  totalPrice: number;
+  scooterNumber: string;
 }
 
 export { Rental };

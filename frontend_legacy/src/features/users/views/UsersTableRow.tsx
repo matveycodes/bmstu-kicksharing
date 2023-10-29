@@ -24,13 +24,13 @@ const UsersTableRow: FC<Props> = ({ user, onBlock, ...props }) => {
   return (
     <Tr {...props}>
       <Td>
-        <Center>{user.first_name ?? "—"}</Center>
+        <Center>{user.firstName ?? "—"}</Center>
       </Td>
       <Td>
-        <Center>{user.last_name ?? "—"}</Center>
+        <Center>{user.lastName ?? "—"}</Center>
       </Td>
       <Td>
-        <Center>{user.middle_name ?? "—"}</Center>
+        <Center>{user.middleName ?? "—"}</Center>
       </Td>
       <Td>
         <Center>{formatPhone(user.phone)}</Center>

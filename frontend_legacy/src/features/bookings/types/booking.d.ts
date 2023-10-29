@@ -1,10 +1,12 @@
+import { User } from "features/user";
+import { Scooter } from "features/scooters";
+
 interface Booking {
   id: string;
-  user_id: string;
-  scooter_id: string;
-  scooter_number: string;
-  date_started: string;
-  date_finished: string;
+  user: User;
+  scooter: Scooter;
+  dateStarted: string;
+  dateFinished: string;
   duration: number;
 }
 

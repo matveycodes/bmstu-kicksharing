@@ -1,9 +1,9 @@
 import { Subscription } from "./subscription";
 
 interface PurchasedSubscription {
-  date_started: string;
-  date_finished: string;
-  date_purchased: string;
+  dateStarted: string;
+  dateFinished: string;
+  datePurchased: string;
   subscription: Subscription;
 }
 

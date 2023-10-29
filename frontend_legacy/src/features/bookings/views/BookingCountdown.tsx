@@ -10,7 +10,7 @@ interface Props extends Omit<ComponentProps<typeof Countdown>, "date"> {
 
 const BookingCountdown: FC<Props> = ({ booking, ...props }) => {
   return (
-    <Countdown date={booking.date_finished} renderer={renderer} {...props} />
+    <Countdown date={booking.dateFinished} renderer={renderer} {...props} />
   );
 };
 

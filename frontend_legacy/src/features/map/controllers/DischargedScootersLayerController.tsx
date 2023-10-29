@@ -1,39 +1,32 @@
 import { ComponentProps, FC } from "react";
 import NiceModal from "@ebay/nice-modal-react";
 
-import {
-  RentableScooterInfoModalController,
-  Scooter,
-  useDischargedScooters,
-} from "features/scooters";
+import { RentableScooterInfoModalController } from "features/scooters";
 
 import { useBounds } from "../hooks/useBounds";
 
 import { ScootersLayer } from "../views/ScootersLayer";
+import { Ping, usePings } from "../../pings";
 
 type Props = Omit<
   ComponentProps<typeof ScootersLayer>,
-  "scooters" | "onScooterClick"
+  "pings" | "onScooterClick"
 >;
 
 const DischargedScootersLayerController: FC<Props> = (props) => {
   const bounds = useBounds();
 
-  const { data: dischargedScooters = [] } = useDischargedScooters(bounds, {
+  const { data: pings = [] } = usePings(bounds, {
     keepPreviousData: true,
   });
 
   return (
-    <ScootersLayer
-      scooters={dischargedScooters}
-      onScooterClick={onScooterClick}
-      {...props}
-    />
+    <ScootersLayer pings={pings} onScooterClick={onScooterClick} {...props} />
   );
 };
 
-const onScooterClick = (scooter: Scooter) => {
-  void NiceModal.show(RentableScooterInfoModalController, { scooter });
+const onScooterClick = (ping: Ping) => {
+  void NiceModal.show(RentableScooterInfoModalController, { ping });
 };
 
 export { DischargedScootersLayerController };

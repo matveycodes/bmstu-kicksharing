@@ -42,7 +42,7 @@ const CurrentUserActiveBookingsController: FC<Props> = () => {
 
   const onBookingExpire = async (booking: Booking) => {
     toast({
-      title: `Бронирование самоката ${booking.scooter_number} истекло`,
+      title: `Бронирование самоката ${booking.scooter.number} истекло`,
       status: "warning",
     });
 

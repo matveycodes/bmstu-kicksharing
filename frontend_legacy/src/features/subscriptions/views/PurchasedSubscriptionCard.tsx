@@ -27,8 +27,8 @@ const PurchasedSubscriptionCard: FC<Props> = ({
   ...props
 }) => {
   const status = useMemo(() => {
-    const hasStarted = dayjs().isAfter(purchasedSubscription.date_started);
-    const hasFinished = dayjs().isAfter(purchasedSubscription.date_finished);
+    const hasStarted = dayjs().isAfter(purchasedSubscription.dateStarted);
+    const hasFinished = dayjs().isAfter(purchasedSubscription.dateFinished);
 
     if (!hasStarted) {
       return "upcoming";
@@ -46,25 +46,23 @@ const PurchasedSubscriptionCard: FC<Props> = ({
           <Heading size="sm">
             {purchasedSubscription.subscription.title}
           </Heading>
-          <Text>
-            Куплена {formatDate(purchasedSubscription.date_purchased)}
-          </Text>
+          <Text>Куплена {formatDate(purchasedSubscription.datePurchased)}</Text>
 
           {status === "upcoming" ? (
             <>
               <Text>
                 Начнёт действовать с{" "}
-                {formatDate(purchasedSubscription.date_started, false)}
+                {formatDate(purchasedSubscription.dateStarted, false)}
               </Text>
               <Text>
                 Будет действовать до{" "}
-                {formatDate(purchasedSubscription.date_finished, false)}
+                {formatDate(purchasedSubscription.dateFinished, false)}
               </Text>
             </>
           ) : (
             <Text color={STATUS_COLOR[status]}>
               {status === "active" ? "Действует до" : "Истекла"}{" "}
-              {formatDate(purchasedSubscription.date_finished, false)}
+              {formatDate(purchasedSubscription.dateFinished, false)}
             </Text>
           )}
         </Stack>

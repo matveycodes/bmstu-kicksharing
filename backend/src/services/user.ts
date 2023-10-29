@@ -1,10 +1,7 @@
 import dayjs from "dayjs";
 
 import { CreateUserServiceDto } from "../dto/create-user-service";
-import {
-  UpdateUserModelExtendedDto,
-  UpdateUserModelRestrictedDto,
-} from "../dto/update-user-model";
+import { UpdateUserModelDto } from "../dto/update-user-model";
 import { ValidationError } from "../errors/validation";
 import { ISettingRepo } from "../interfaces/setting-repo";
 import { IUserRepo } from "../interfaces/user-repo";
@@ -33,10 +30,7 @@ class UserService implements IUserService {
     return this._userRepo.findAllPaginated(query, pagination);
   }
 
-  public async update(
-    id: UserId,
-    dto: UpdateUserModelRestrictedDto | UpdateUserModelExtendedDto
-  ): Promise<void> {
+  public async update(id: UserId, dto: UpdateUserModelDto): Promise<void> {
     const user = await this._userRepo.getById(id);
 
     if (dto.birthdate) {
@@ -55,6 +49,8 @@ class UserService implements IUserService {
     user.firstName = dto.firstName ?? user.firstName;
     user.lastName = dto.lastName ?? user.lastName;
     user.middleName = dto.middleName ?? user.middleName;
+    user.status = dto.status ?? user.status;
+    user.role = dto.role ?? user.role;
 
     return this._userRepo.save(user);
   }

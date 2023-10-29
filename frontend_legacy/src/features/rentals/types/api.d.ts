@@ -1,13 +1,13 @@
-import { Response } from "features/api";
+import { PaginatedResponse, Response } from "features/api";
 
 import { Rental } from "./rental";
 
 interface StartRentalBody {
-  scooter_id: string;
+  scooterId: string;
 }
 
-type GetActiveRentalsResponse = Response<Rental[]>;
+type GetActiveRentalsResponse = PaginatedResponse<Rental>;
 
-type GetRentalsHistoryResponse = Response<Rental[]>;
+type GetRentalsHistoryResponse = PaginatedResponse<Rental>;
 
 export { StartRentalBody, GetActiveRentalsResponse, GetRentalsHistoryResponse };

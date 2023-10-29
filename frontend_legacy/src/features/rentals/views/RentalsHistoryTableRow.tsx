@@ -16,10 +16,10 @@ const RentalsHistoryTableRow: FC<Props> = ({ rental, ...props }) => {
   return (
     <Tr {...props}>
       <Td>
-        <Center>{rental.scooter_number}</Center>
+        <Center>{rental.scooter.number}</Center>
       </Td>
       <Td>
-        <Center>{formatDate(rental.date_started)}</Center>
+        <Center>{formatDate(rental.dateStarted)}</Center>
       </Td>
       <Td>
         <Center>{formatDuration(rental.duration)}</Center>
@@ -27,13 +27,13 @@ const RentalsHistoryTableRow: FC<Props> = ({ rental, ...props }) => {
       <Td>
         <Center>
           {formatTariff({
-            start_price: rental.start_price,
-            per_minute_price: rental.per_minute_price,
+            startPrice: rental.startPrice,
+            perMinutePrice: rental.perMinutePrice,
           })}
         </Center>
       </Td>
       <Td>
-        <Center>{formatPrice(rental.total_price)}</Center>
+        <Center>{formatPrice(rental.totalPrice)}</Center>
       </Td>
     </Tr>
   );

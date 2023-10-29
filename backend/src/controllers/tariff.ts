@@ -23,7 +23,7 @@ class TariffController implements ITariffController {
       throw new PermissionError();
     }
 
-    const response = await this._tariffService.get();
+    const response = await this._tariffService.get(user.id);
     res.status(StatusCodes.OK).json(response);
   };
 }

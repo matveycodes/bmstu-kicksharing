@@ -169,7 +169,7 @@ class UserController implements IUserController {
     }
 
     const { results, ...response } =
-      await this._rideService.getAllByUserIdPaginated(id, pagination);
+      await this._rideService.getActiveByUserIdPaginated(id, pagination);
     const serializedResponse = {
       ...response,
       results: await this._rideSerializer.serialize(results),

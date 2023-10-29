@@ -19,7 +19,7 @@ interface IRideRepo {
   getActiveByScooterId(scooterId: ScooterId): Promise<Ride[]>;
   getActiveByUserId(userId: UserId): Promise<Ride[]>;
   isScooterTaken(scooterId: ScooterId): Promise<boolean>;
-  getAllByUserIdPaginated(
+  getActiveByUserIdPaginated(
     userId: UserId,
     pagination: PaginationRequest
   ): Promise<PaginatedResponse<Ride>>;

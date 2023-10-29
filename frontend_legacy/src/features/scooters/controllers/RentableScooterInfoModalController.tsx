@@ -8,16 +8,15 @@ import { startRental, useInvalidateRentals } from "features/rentals";
 
 import { useInvalidateScooters } from "../hooks/useInvalidateScooters";
 
-import { Scooter } from "../types/scooter";
-
 import { RentableScooterInfoModal } from "../views/RentableScooterInfoModal";
+import { Ping } from "../../pings";
 
 interface Props {
-  scooter: Scooter;
+  ping: Ping;
 }
 
 const RentableScooterInfoModalController = NiceModal.create<Props>(
-  ({ scooter }) => {
+  ({ ping }) => {
     const modal = useModal();
 
     const toast = useToast();
@@ -29,7 +28,7 @@ const RentableScooterInfoModalController = NiceModal.create<Props>(
     const { invalidateRentals } = useInvalidateRentals();
 
     const bookMutation = useMutation({
-      mutationFn: () => createBooking({ scooter_id: scooter.id }),
+      mutationFn: () => createBooking({ scooterId: ping.scooter.id }),
       onSuccess: async () => {
         await invalidateBookings();
         toast({ title: "Самокат успешно забронирован", status: "success" });
@@ -41,7 +40,7 @@ const RentableScooterInfoModalController = NiceModal.create<Props>(
     });
 
     const rentalMutation = useMutation({
-      mutationFn: () => startRental({ scooter_id: scooter.id }),
+      mutationFn: () => startRental({ scooterId: ping.scooter.id }),
       onSuccess: async () => {
         await invalidateRentals();
         toast({ title: "Самокат успешно арендован", status: "success" });
@@ -54,7 +53,7 @@ const RentableScooterInfoModalController = NiceModal.create<Props>(
 
     return (
       <RentableScooterInfoModal
-        scooter={scooter}
+        ping={ping}
         isOpen={modal.visible}
         onClose={modal.hide}
         onCloseComplete={modal.remove}

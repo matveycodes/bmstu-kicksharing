@@ -1,6 +1,6 @@
-import { Response } from "features/api";
+import { PaginatedResponse } from "features/api";
 import { User } from "features/user";
 
-type GetUsersResponse = Response<User[]>;
+type GetUsersResponse = PaginatedResponse<User>;
 
 export { GetUsersResponse };

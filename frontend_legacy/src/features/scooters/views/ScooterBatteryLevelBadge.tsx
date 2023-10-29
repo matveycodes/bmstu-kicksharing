@@ -1,22 +1,21 @@
 import { FC, useMemo } from "react";
 import { Badge, BadgeProps } from "@chakra-ui/react";
 
-import { Scooter } from "../types/scooter";
-
 import { getBatteryLevelColor } from "../utils/battery-level";
+import { Ping } from "../../pings";
 
 interface Props extends Omit<BadgeProps, "children"> {
-  scooter: Scooter;
+  ping: Ping;
 }
 
-const ScooterBatteryLevelBadge: FC<Props> = ({ scooter, ...props }) => {
+const ScooterBatteryLevelBadge: FC<Props> = ({ ping, ...props }) => {
   const colorScheme = useMemo(() => {
-    return getBatteryLevelColor(scooter.battery_level);
-  }, [scooter.battery_level]);
+    return getBatteryLevelColor(ping.batteryLevel);
+  }, [ping.batteryLevel]);
 
   return (
     <Badge colorScheme={colorScheme} {...props}>
-      {scooter.battery_level}%
+      {ping.batteryLevel}%
     </Badge>
   );
 };

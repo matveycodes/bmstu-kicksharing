@@ -20,14 +20,14 @@ class RidePostgresRepo implements IRideRepo {
     this._pool = pool;
   }
 
-  public async getAllByUserIdPaginated(
+  public async getActiveByUserIdPaginated(
     userId: UserId,
     pagination: PaginationRequest
   ) {
     try {
       const response = await selectWithPagination<RideRow>(
         this._pool,
-        QUERIES.SELECT_ALL_BY_USER_ID_PAGINATED,
+        QUERIES.SELECT_ACTIVE_BY_USER_ID_PAGINATED,
         pagination,
         { userId }
       );

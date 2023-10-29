@@ -6,12 +6,21 @@ import { Booking } from "../types/booking";
 const getActiveBookings = async (
   config?: Omit<RequestConfig, "params">
 ): Promise<Booking[]> => {
-  const { data } = await client.get<GetActiveBookingsResponse>(
-    "/bookings/active/",
-    config
+  const { data: initialData } = await client.get<GetActiveBookingsResponse>(
+    "/users/current/bookings/",
+    { params: { isActive: true, pageSize: 1 }, ...config }
   );
 
-  return data;
+  if (initialData.totalCount <= 1) {
+    return initialData.results;
+  }
+
+  const { data } = await client.get<GetActiveBookingsResponse>(
+    "/users/current/bookings/",
+    { params: { isActive: true, pageSize: initialData.totalCount }, ...config }
+  );
+
+  return data.results;
 };
 
 const createBooking = async (body: CreateBookingBody) => {

@@ -8,15 +8,15 @@ import { TechnicianMapController } from "./TechnicianMapController";
 const CurrentUserMapController = () => {
   const { data: user } = useCurrentUser();
 
-  if (user?.is_active && user?.role === "admin") {
+  if (user?.isActive && user?.role === "admin") {
     return <AdminMapController />;
   }
 
-  if (user?.is_active && user?.role === "technician") {
+  if (user?.isActive && user?.role === "technician") {
     return <TechnicianMapController />;
   }
 
-  if (user?.is_active && user?.role === "customer") {
+  if (user?.isActive && user?.role === "customer") {
     return <CustomerMapController />;
   }
 

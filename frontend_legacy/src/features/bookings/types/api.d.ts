@@ -1,11 +1,11 @@
-import { Response } from "features/api";
+import { PaginatedResponse } from "features/api";
 
 import { Booking } from "./booking";
 
-type GetActiveBookingsResponse = Response<Booking[]>;
+type GetActiveBookingsResponse = PaginatedResponse<Booking>;
 
 interface CreateBookingBody {
-  scooter_id: string;
+  scooterId: string;
 }
 
 export { CreateBookingBody, GetActiveBookingsResponse };

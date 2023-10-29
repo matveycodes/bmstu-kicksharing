@@ -1,11 +1,11 @@
-import { Response } from "features/api";
+import { PaginatedResponse, Response } from "features/api";
 
 import { Subscription } from "./subscription";
 import { PurchasedSubscription } from "./purchased-subscription";
 
-type GetSubscriptionsResponse = Response<Subscription[]>;
+type GetSubscriptionsResponse = PaginatedResponse<Subscription>;
 
-type GetActiveSubscriptionsResponse = Response<PurchasedSubscription[]>;
+type GetActiveSubscriptionsResponse = PaginatedResponse<PurchasedSubscription>;
 
 type GetFinishedSubscriptionsResponse = Response<PurchasedSubscription[]>;
 

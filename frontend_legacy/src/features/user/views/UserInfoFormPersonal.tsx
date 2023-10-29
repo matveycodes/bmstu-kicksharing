@@ -18,32 +18,32 @@ interface Props {
 const UserInfoFormPersonal: FC<Props> = ({ form, isEditing }) => {
   return (
     <SimpleGrid columns={2} spacing={3}>
-      <FormControl isInvalid={!!form.formState.errors.first_name}>
+      <FormControl isInvalid={!!form.formState.errors.firstName}>
         <FormLabel>Имя</FormLabel>
-        <Input readOnly={!isEditing} {...form.register("first_name")} />
-        {form.formState.errors.first_name && (
+        <Input readOnly={!isEditing} {...form.register("firstName")} />
+        {form.formState.errors.firstName && (
           <FormErrorMessage>
-            {form.formState.errors.first_name.message}
+            {form.formState.errors.firstName.message}
           </FormErrorMessage>
         )}
       </FormControl>
 
-      <FormControl isInvalid={!!form.formState.errors.last_name}>
+      <FormControl isInvalid={!!form.formState.errors.lastName}>
         <FormLabel>Фамилия</FormLabel>
-        <Input readOnly={!isEditing} {...form.register("last_name")} />
-        {form.formState.errors.last_name && (
+        <Input readOnly={!isEditing} {...form.register("lastName")} />
+        {form.formState.errors.lastName && (
           <FormErrorMessage>
-            {form.formState.errors.last_name.message}
+            {form.formState.errors.lastName.message}
           </FormErrorMessage>
         )}
       </FormControl>
 
-      <FormControl isInvalid={!!form.formState.errors.middle_name}>
+      <FormControl isInvalid={!!form.formState.errors.middleName}>
         <FormLabel>Отчество</FormLabel>
-        <Input readOnly={!isEditing} {...form.register("middle_name")} />
-        {form.formState.errors.middle_name && (
+        <Input readOnly={!isEditing} {...form.register("middleName")} />
+        {form.formState.errors.middleName && (
           <FormErrorMessage>
-            {form.formState.errors.middle_name.message}
+            {form.formState.errors.middleName.message}
           </FormErrorMessage>
         )}
       </FormControl>

@@ -26,11 +26,11 @@ const CurrentUserControlPanelController: FC<Props> = (props) => {
         <LoginButtonController />
       )}
 
-      {user?.role === "customer" && user?.is_active && (
+      {user?.role === "customer" && user?.isActive && (
         <CurrentUserActiveBookingsController />
       )}
 
-      {user?.role === "customer" && user?.is_active && (
+      {user?.role === "customer" && user?.isActive && (
         <CurrentUserActiveRentalsController />
       )}
 

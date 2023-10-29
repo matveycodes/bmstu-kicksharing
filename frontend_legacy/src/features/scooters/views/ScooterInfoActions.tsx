@@ -3,15 +3,12 @@ import { FC } from "react";
 
 import { formatTariff, Tariff } from "features/tariff";
 
-import { Scooter } from "../types/scooter";
-
 interface Props extends StackProps {
   onStartRental?: () => void;
   isStartingRental?: boolean;
   onBook?: () => void;
   isBooking?: boolean;
   tariff?: Tariff;
-  scooter: Scooter;
 }
 
 const ScooterInfoActions: FC<Props> = ({
@@ -20,7 +17,6 @@ const ScooterInfoActions: FC<Props> = ({
   tariff,
   onBook,
   isBooking,
-  scooter,
   ...props
 }) => {
   return (

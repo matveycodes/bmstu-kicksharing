@@ -1,17 +1,24 @@
+interface ScooterManufacturer {
+  id: string;
+  title: string;
+}
+
+interface ScooterModel {
+  id: string;
+  title: string;
+  singleChargeMileage: number;
+  weight: number;
+  maxSpeed: number;
+  maxLoad: number;
+  manufacturer: ScooterManufacturer;
+  year: number;
+}
+
 interface Scooter {
   id: string;
   status: string;
   number: string;
-  model_id: string;
-  battery_level: number;
-  location: {
-    longitude: number;
-    latitude: number;
-  };
-  estimates: {
-    time: number;
-    distance: number;
-  };
+  model: ScooterModel;
 }
 
 export { Scooter };

@@ -128,7 +128,10 @@ const purchaseService = new PurchaseService({
   subscriptionRepo: repos.subscription,
   userRepo: repos.user,
 });
-const tariffService = new TariffService({ settingRepo: repos.setting });
+const tariffService = new TariffService({
+  settingRepo: repos.setting,
+  purchaseRepo: repos.purchase,
+});
 const rideService = new RideService({
   rideRepo: repos.ride,
   tariffService,

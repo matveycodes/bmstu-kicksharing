@@ -11,23 +11,42 @@ import { PurchasedSubscription } from "../types/purchased-subscription";
 const getSubscriptions = async (
   config?: Omit<RequestConfig, "params">
 ): Promise<Subscription[]> => {
-  const { data } = await client.get<GetSubscriptionsResponse>(
+  const { data: initialData } = await client.get<GetSubscriptionsResponse>(
     "/subscriptions/",
-    config
+    { params: { pageSize: 1 }, ...config }
   );
 
-  return data;
+  if (initialData.totalCount <= 1) {
+    return initialData.results;
+  }
+
+  const { data } = await client.get<GetSubscriptionsResponse>(
+    "/subscriptions/",
+    { params: { pageSize: initialData.totalCount }, ...config }
+  );
+
+  return data.results;
 };
 
 const getActiveSubscriptions = async (
   config?: Omit<RequestConfig, "params">
 ): Promise<PurchasedSubscription[]> => {
+  const { data: initialData } =
+    await client.get<GetActiveSubscriptionsResponse>(
+      "/users/current/purchases/",
+      { params: { pageSize: 1 }, ...config }
+    );
+
+  if (initialData.totalCount <= 1) {
+    return initialData.results;
+  }
+
   const { data } = await client.get<GetActiveSubscriptionsResponse>(
-    "/subscriptions/active/",
-    config
+    "/users/current/purchases/",
+    { params: { pageSize: initialData.totalCount }, ...config }
   );
 
-  return data;
+  return data.results;
 };
 
 const getFinishedSubscriptions = async (
@@ -42,7 +61,7 @@ const getFinishedSubscriptions = async (
 };
 
 const purchaseSubscription = async (id: string) => {
-  await client.post(`/subscriptions/${id}/purchase/`);
+  await client.post(`/purchases/`, { subscriptionId: id });
 };
 
 export {

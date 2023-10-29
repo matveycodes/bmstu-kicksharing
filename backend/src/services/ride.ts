@@ -38,11 +38,11 @@ class RideService implements IRideService {
     this._billingGateway = dto.billingGateway;
   }
 
-  public async getAllByUserIdPaginated(
+  public async getActiveByUserIdPaginated(
     userId: UserId,
     pagination: PaginationRequest
   ) {
-    return this._rideRepo.getAllByUserIdPaginated(userId, pagination);
+    return this._rideRepo.getActiveByUserIdPaginated(userId, pagination);
   }
 
   public async getFinishedByUserIdPaginated(
@@ -106,7 +106,9 @@ class RideService implements IRideService {
     await this.ensureScooterIsRentable(scooterId);
     await this.ensureUserCanRent(userId);
 
-    const { startPrice, perMinutePrice } = await this._tariffService.get();
+    const { startPrice, perMinutePrice } = await this._tariffService.get(
+      userId
+    );
 
     const ride = new Ride({
       id: this._rideRepo.nextId(),

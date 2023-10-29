@@ -14,7 +14,7 @@ interface IRideService {
     pagination: PaginationRequest
   ): Promise<PaginatedResponse<Ride>>;
   getById(id: RideId): Promise<Ride>;
-  getAllByUserIdPaginated(
+  getActiveByUserIdPaginated(
     userId: UserId,
     pagination: PaginationRequest
   ): Promise<PaginatedResponse<Ride>>;

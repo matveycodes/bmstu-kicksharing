@@ -12,7 +12,7 @@ const ActiveRentalTimer: FC<Props> = ({ rental, ...props }) => {
   return (
     <Countdown
       overtime
-      date={rental.date_started}
+      date={rental.dateStarted}
       renderer={renderer}
       {...props}
     />

@@ -13,7 +13,7 @@ const UserButton: FC<Props> = ({ user, ...props }) => {
   return (
     <Button colorScheme="blue" {...props}>
       <Skeleton isLoaded={!!user}>
-        {user ? user.first_name ?? formatPhone(user.phone) : PHONE_FORMAT}
+        {user ? user.firstName ?? formatPhone(user.phone) : PHONE_FORMAT}
       </Skeleton>
     </Button>
   );

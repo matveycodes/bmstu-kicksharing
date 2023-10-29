@@ -12,7 +12,7 @@ OFFSET
   $(offset)
 `;
 
-const SELECT_ALL_BY_USER_ID_PAGINATED = `
+const SELECT_ACTIVE_BY_USER_ID_PAGINATED = `
 SELECT 
   *,
   count(*) over() as count
@@ -20,6 +20,7 @@ FROM
   rides
 WHERE
   user_id = $(userId)
+  AND date_finished IS NULL
 ORDER BY
   date_started desc
 LIMIT 
@@ -35,7 +36,7 @@ SELECT
 FROM
   rides
 WHERE
-  date_finished is NULL
+  date_finished IS NULL
 ORDER BY
   date_started desc
 LIMIT 
@@ -51,7 +52,7 @@ SELECT
 FROM
   rides
 WHERE
-  date_finished is NOT NULL
+  date_finished IS NOT NULL
 ORDER BY
   date_started desc
 LIMIT 
@@ -67,7 +68,7 @@ SELECT
 FROM
   rides
 WHERE
-  date_finished is NOT NULL
+  date_finished IS NOT NULL
   and user_id = $(userId)
 ORDER BY
   date_started desc
@@ -137,8 +138,8 @@ export {
   INSERT,
   SELECT_ACTIVE_BY_SCOOTER_ID,
   SELECT_ACTIVE_BY_USER_ID,
+  SELECT_ACTIVE_BY_USER_ID_PAGINATED,
   SELECT_ACTIVE_PAGINATED,
-  SELECT_ALL_BY_USER_ID_PAGINATED,
   SELECT_ALL_PAGINATED,
   SELECT_BY_ID,
   SELECT_FINISHED_BY_USER_ID_PAGINATED,

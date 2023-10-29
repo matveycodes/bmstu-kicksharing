@@ -28,9 +28,9 @@ const UserInfoForm: FC<Props> = ({ user, onSubmit, ...props }) => {
   const form = useForm<UserInfoFormData>({
     resolver: zodResolver(USER_INFO_FORM_SCHEMA),
     defaultValues: {
-      first_name: user.first_name || undefined,
-      last_name: user.last_name || undefined,
-      middle_name: user.middle_name || undefined,
+      firstName: user.firstName || undefined,
+      lastName: user.lastName || undefined,
+      middleName: user.middleName || undefined,
       birthdate: user.birthdate || undefined,
       email: user.email || undefined,
     },

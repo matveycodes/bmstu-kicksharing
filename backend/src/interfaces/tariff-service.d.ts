@@ -1,7 +1,8 @@
+import { UserId } from "../models/user";
 import { Tariff } from "../vo/tariff";
 
 interface ITariffService {
-  get(): Promise<Tariff>;
+  get(userId: UserId): Promise<Tariff>;
 }
 
 export { ITariffService };
