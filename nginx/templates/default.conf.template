@@ -1,0 +1,24 @@
+server {
+    listen ${NGINX_PORT} default;
+
+    location = /status {
+        stub_status;
+    }
+
+    location /api {
+        rewrite ^/api/(.*)$ /$1 break;
+        proxy_set_header Host $http_host;
+        proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT};
+    }
+
+    location /admin/pg {
+        proxy_set_header X-Script-Name /admin/pg;
+        proxy_set_header Host $host;
+        proxy_pass http://${PG_WEB_HOST}:${PG_WEB_PORT};
+    }
+
+    location /admin/mongo {
+        proxy_set_header Host $http_host;
+        proxy_pass http://${MONGO_WEB_HOST}:${MONGO_WEB_PORT};
+    }
+}
