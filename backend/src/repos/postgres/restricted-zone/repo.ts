@@ -1,8 +1,10 @@
 import * as crypto from "crypto";
 
-import { DataAccessError } from "../../../errors/data-access-error";
+import { DataAccessError } from "../../../errors/data-access";
+import { NotFoundError } from "../../../errors/not-found";
 import { IRestrictedZoneRepo } from "../../../interfaces/restricted-zone-repo";
 import { RestrictedZoneId } from "../../../models/restricted-zone";
+import { Bounds } from "../../../vo/bounds";
 import { PaginationRequest } from "../../../vo/pagination";
 import { PostgresPool } from "../pool";
 import { selectWithPagination } from "../utils";
@@ -21,31 +23,52 @@ class RestrictedZonePostgresRepo implements IRestrictedZoneRepo {
     return crypto.randomUUID() as RestrictedZoneId;
   }
 
-  public async getAll(pagination: PaginationRequest) {
+  public async getAllPaginated(pagination: PaginationRequest) {
     try {
-      const rows = await selectWithPagination<RestrictedZoneRow>(
+      const response = await selectWithPagination<RestrictedZoneRow>(
         this._pool,
-        QUERIES.SELECT_ALL,
+        QUERIES.SELECT_ALL_PAGINATED,
         pagination
       );
-      return { ...rows, results: rows.results.map(parseRestrictedZoneRow) };
-    } catch (err) {
+
+      return {
+        ...response,
+        results: response.results.map(parseRestrictedZoneRow),
+      };
+    } catch {
       throw new DataAccessError(
         "Не удалось получить список зон ограничения скорости"
       );
     }
   }
 
-  public async get(id: RestrictedZoneId) {
+  public async getWithinBoundsPaginated(
+    bounds: Bounds,
+    pagination: PaginationRequest
+  ) {
+    // TODO:
+    return this.getAllPaginated(pagination);
+  }
+
+  public async getById(id: RestrictedZoneId) {
+    let row: RestrictedZoneRow | null = null;
+
     try {
-      const row = await this._pool.one<RestrictedZoneRow>(
+      row = await this._pool.oneOrNone<RestrictedZoneRow>(
         QUERIES.SELECT_BY_ID,
-        [id]
+        { id }
       );
-      return parseRestrictedZoneRow(row);
-    } catch (err) {
-      throw new DataAccessError("Не удалось получить парковку");
+    } catch {
+      throw new DataAccessError(
+        "Не удалось получить зону ограничения скорости"
+      );
     }
+
+    if (!row) {
+      throw new NotFoundError("Зона ограничения скорости не найдена");
+    }
+
+    return parseRestrictedZoneRow(row);
   }
 }
 

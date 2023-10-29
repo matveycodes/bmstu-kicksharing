@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 
-import { PAGINATION_SCHEMA } from "../validations/pagination";
+import { PAGINATION_QUERY_SCHEMA } from "../validations/schemas/pagination";
 import { PaginationRequest } from "../vo/pagination";
 
 declare global {
@@ -15,11 +15,11 @@ declare global {
 const pagination =
   (defaultPageSize: number): RequestHandler =>
   async (req, _, next) => {
-    const parsedQuery = await PAGINATION_SCHEMA.parseAsync(req.query);
+    const parsedQuery = await PAGINATION_QUERY_SCHEMA.parseAsync(req.query);
 
     req.pagination = {
       page: parsedQuery.page ?? 1,
-      pageSize: parsedQuery.page_size ?? defaultPageSize,
+      pageSize: parsedQuery.pageSize ?? defaultPageSize,
     };
 
     next();

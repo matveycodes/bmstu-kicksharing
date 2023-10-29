@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS pings (
     lights_state scooter_lights_state NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS rentals (
+CREATE TABLE IF NOT EXISTS rides (
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id uuid NOT NULL REFERENCES users(id),
     scooter_id uuid NOT NULL REFERENCES scooters(id),
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS subscriptions (
     price integer NOT NULL CHECK (price >= 0)
 );
 
-CREATE TABLE IF NOT EXISTS purchased_subscriptions (
+CREATE TABLE IF NOT EXISTS purchases (
     subscription_id uuid NOT NULL REFERENCES subscriptions(id),
     user_id uuid NOT NULL REFERENCES users(id),
     date_started timestamp with time zone NOT NULL DEFAULT now(),

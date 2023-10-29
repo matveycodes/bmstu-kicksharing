@@ -1,27 +1,17 @@
-const SELECT_ALL = `
-SELECT
-( 
-  SELECT
-    COUNT(*) 
-  FROM
-    restricted_zones ) as count,
-    (
-      SELECT
-        json_agg(t.*) 
-      FROM
-        (
-          SELECT 
-            id, 
-            speed_limit, 
-            ST_AsGeoJSON(polygon) as polygon
-          FROM
-            restricted_zones
-          ORDER BY
-            id LIMIT $1 OFFSET $2 
-        )
-        AS t 
-    )
-    AS rows
+const SELECT_ALL_PAGINATED = `
+SELECT 
+  id, 
+  speed_limit, 
+  ST_AsGeoJSON(polygon) as polygon,
+  count(*) over() as count
+FROM
+  restricted_zones
+ORDER BY
+  id 
+LIMIT 
+  $(limit) 
+OFFSET 
+  $(offset)
 `;
 
 const SELECT_BY_ID = `
@@ -32,7 +22,7 @@ SELECT
 FROM
     restricted_zones 
 WHERE
-    id = $1
+    id = $(id)
 `;
 
-export { SELECT_ALL, SELECT_BY_ID };
+export { SELECT_ALL_PAGINATED, SELECT_BY_ID };

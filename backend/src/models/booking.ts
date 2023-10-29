@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 import { CreateBookingModelDto } from "../dto/create-booking-model";
-import { ValidationError } from "../errors/validation-error";
+import { ValidationError } from "../errors/validation";
 import { BaseModel } from "./base";
 import { ScooterId } from "./scooter";
 import { UserId } from "./user";

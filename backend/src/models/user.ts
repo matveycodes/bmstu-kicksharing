@@ -23,9 +23,9 @@ class User extends BaseModel<UserId> {
   public constructor(createUserDto: CreateUserModelDto) {
     super(createUserDto.id);
 
-    this._status = createUserDto.status;
-    this._role = createUserDto.role;
-    this._dateJoined = createUserDto.dateJoined;
+    this._status = createUserDto.status ?? "pending";
+    this._role = createUserDto.role ?? "customer";
+    this._dateJoined = createUserDto.dateJoined ?? new Date();
     this._middleName = createUserDto.middleName;
     this._firstName = createUserDto.firstName;
     this._lastName = createUserDto.lastName;

@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 import { CreateRideModelDto } from "../dto/create-ride-model";
-import { ValidationError } from "../errors/validation-error";
+import { ValidationError } from "../errors/validation";
 import { BaseModel } from "./base";
 import { ScooterId } from "./scooter";
 import { UserId } from "./user";
@@ -109,8 +109,8 @@ class Ride extends BaseModel<RideId> {
       scooterId: this.scooterId,
       startPrice: this.startPrice,
       perMinutePrice: this.perMinutePrice,
-      dateStarted: this.dateStarted,
-      dateFinished: this.dateFinished ?? null,
+      dateStarted: this.dateStarted.toISOString(),
+      dateFinished: this.dateFinished?.toISOString() ?? null,
       duration: this.duration,
       totalPrice: this.totalPrice,
     };

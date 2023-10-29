@@ -1,0 +1,1 @@
+INSERT INTO scooter_manufacturers (title) VALUES ('Ninebot');

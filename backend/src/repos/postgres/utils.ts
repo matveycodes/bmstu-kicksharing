@@ -10,32 +10,35 @@ const convertPaginationToLimitOffset = ({
   return { limit: pageSize, offset: (page - 1) * pageSize };
 };
 
-const selectWithPagination = async <TValue>(
+const selectWithPagination = async <TRow>(
   pool: PostgresPool,
   query: QueryParam,
   pagination: PaginationRequest,
-  values?: unknown[]
-): Promise<PaginatedResponse<TValue>> => {
+  values?: object
+): Promise<PaginatedResponse<TRow>> => {
   const { limit, offset } = convertPaginationToLimitOffset(pagination);
 
-  const result = await pool.one<{ count: string; rows: TValue[] | null }>(
-    query,
-    [...(values ?? []), limit, offset]
-  );
+  const rows = await pool.manyOrNone<TRow & { count: string }>(query, {
+    ...values,
+    limit,
+    offset,
+  });
 
-  const totalCount = Number.parseInt(result.count);
+  const totalRowsCount = Number.parseInt(rows[0]?.count ?? 0);
 
-  const hasNext = pagination.page * pagination.pageSize < totalCount;
+  const totalPagesCount = Math.ceil(totalRowsCount / pagination.pageSize);
 
-  const hasPrevious =
-    pagination.page > 1 &&
-    (pagination.page - 1) * pagination.pageSize <= totalCount;
+  const nextPage =
+    pagination.page < totalPagesCount ? pagination.page + 1 : null;
+
+  const previousPage =
+    pagination.page > 1 ? Math.min(pagination.page - 1, totalPagesCount) : null;
 
   return {
-    totalCount,
-    nextPage: hasNext ? pagination.page + 1 : null,
-    previousPage: hasPrevious ? pagination.page - 1 : null,
-    results: result.rows ?? [],
+    totalCount: totalRowsCount,
+    nextPage,
+    previousPage,
+    results: rows,
   };
 };
 

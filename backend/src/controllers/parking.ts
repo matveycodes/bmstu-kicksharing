@@ -5,6 +5,7 @@ import { CreateParkingControllerDto } from "../dto/create-parking-controller";
 import { IParkingController } from "../interfaces/parking-controller";
 import { IParkingService } from "../interfaces/parking-service";
 import { ParkingId } from "../models/parking";
+import { BOUNDS_QUERY_SCHEMA } from "../validations/schemas/bounds";
 
 class ParkingController implements IParkingController {
   private _parkingService: IParkingService;
@@ -13,13 +14,20 @@ class ParkingController implements IParkingController {
     this._parkingService = dto.parkingService;
   }
 
-  public getAll: RequestHandler = async (req, res) => {
-    const response = await this._parkingService.getAll(req.pagination);
+  public getAll: RequestHandler = async ({ pagination, query }, res) => {
+    const bounds = await BOUNDS_QUERY_SCHEMA.parseAsync(query);
+    const hasBounds = bounds.maxLatitude !== undefined;
+
+    const response = hasBounds
+      ? await this._parkingService.getWithinBoundsPaginated(bounds, pagination)
+      : await this._parkingService.getAllPaginated(pagination);
+
     res.status(StatusCodes.OK).json(response);
   };
 
-  public get: RequestHandler = async (req, res) => {
-    const response = await this._parkingService.get(req.params.id as ParkingId);
+  public get: RequestHandler = async ({ params }, res) => {
+    const id = params.id as ParkingId;
+    const response = await this._parkingService.getById(id);
     res.status(StatusCodes.OK).json(response);
   };
 }

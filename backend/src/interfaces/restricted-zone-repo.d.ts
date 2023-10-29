@@ -1,12 +1,17 @@
 import { RestrictedZone, RestrictedZoneId } from "../models/restricted-zone";
+import { Bounds } from "../vo/bounds";
 import { PaginatedResponse, PaginationRequest } from "../vo/pagination";
 
 interface IRestrictedZoneRepo {
   nextId(): RestrictedZoneId;
-  getAll(
+  getAllPaginated(
     pagination: PaginationRequest
   ): Promise<PaginatedResponse<RestrictedZone>>;
-  get(id: RestrictedZoneId): Promise<RestrictedZone>;
+  getWithinBoundsPaginated(
+    bounds: Bounds,
+    pagination: PaginationRequest
+  ): Promise<PaginatedResponse<RestrictedZone>>;
+  getById(id: RestrictedZoneId): Promise<RestrictedZone>;
 }
 
 export { IRestrictedZoneRepo };

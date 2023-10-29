@@ -1,24 +1,39 @@
 server {
-    listen ${NGINX_PORT} default;
+    listen ${PORT} default;
+
+    location / {
+        root /var/www/frontend/static/;
+        index index.html;
+    }
+
+    location /test {
+        alias /var/www/frontend/static/;
+        index index.html;
+    }
 
     location = /status {
         stub_status;
     }
 
-    location /api {
-        rewrite ^/api/(.*)$ /$1 break;
+    location /documentation {
+        alias /var/www/docs/;
+        try_files README.md =404;
+    }
+
+    location /api/v1/ {
+        rewrite ^/api/v1/(.*)$ /$1 break;
         proxy_set_header Host $http_host;
         proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT};
     }
 
-    location /admin/pg {
+    location /legacy/ {
+        proxy_set_header Host $http_host;
+        proxy_pass http://${FRONTEND_LEGACY_HOST}:${FRONTEND_LEGACY_PORT};
+    }
+
+    location /admin/pg/ {
         proxy_set_header X-Script-Name /admin/pg;
         proxy_set_header Host $host;
         proxy_pass http://${PG_WEB_HOST}:${PG_WEB_PORT};
-    }
-
-    location /admin/mongo {
-        proxy_set_header Host $http_host;
-        proxy_pass http://${MONGO_WEB_HOST}:${MONGO_WEB_PORT};
     }
 }

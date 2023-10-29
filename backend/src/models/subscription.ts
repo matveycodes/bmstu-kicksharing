@@ -1,5 +1,5 @@
 import { CreateSubscriptionModelDto } from "../dto/create-subscription-model";
-import { ValidationError } from "../errors/validation-error";
+import { ValidationError } from "../errors/validation";
 import { BaseModel } from "./base";
 
 type SubscriptionId = string & { _opaque: "Subscription" };

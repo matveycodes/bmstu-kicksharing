@@ -1,5 +1,5 @@
 import { CreateScooterModelModelDto } from "../dto/create-scooter-model-model";
-import { ValidationError } from "../errors/validation-error";
+import { ValidationError } from "../errors/validation";
 import { BaseModel } from "./base";
 import { ScooterManufacturerId } from "./scooter-manufacturer";
 

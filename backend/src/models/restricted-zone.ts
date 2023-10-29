@@ -1,5 +1,5 @@
 import { CreateRestrictedZoneModelDto } from "../dto/create-restricted-zone-model";
-import { ValidationError } from "../errors/validation-error";
+import { ValidationError } from "../errors/validation";
 import { GPSLocation } from "../types/gps-location";
 import { BaseModel } from "./base";
 

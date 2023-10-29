@@ -2,6 +2,7 @@ import { CreateRestrictedZoneServiceDto } from "../dto/create-restricted-zone-se
 import { IRestrictedZoneRepo } from "../interfaces/restricted-zone-repo";
 import { IRestrictedZoneService } from "../interfaces/restricted-zone-service";
 import { RestrictedZoneId } from "../models/restricted-zone";
+import { Bounds } from "../vo/bounds";
 import { PaginationRequest } from "../vo/pagination";
 
 class RestrictedZoneService implements IRestrictedZoneService {
@@ -11,12 +12,22 @@ class RestrictedZoneService implements IRestrictedZoneService {
     this._restrictedZoneRepo = dto.restrictedZoneRepo;
   }
 
-  public async getAll(pagination: PaginationRequest) {
-    return this._restrictedZoneRepo.getAll(pagination);
+  public async getAllPaginated(pagination: PaginationRequest) {
+    return this._restrictedZoneRepo.getAllPaginated(pagination);
   }
 
-  public async get(id: RestrictedZoneId) {
-    return this._restrictedZoneRepo.get(id);
+  public async getWithinBoundsPaginated(
+    bounds: Bounds,
+    pagination: PaginationRequest
+  ) {
+    return this._restrictedZoneRepo.getWithinBoundsPaginated(
+      bounds,
+      pagination
+    );
+  }
+
+  public async getById(id: RestrictedZoneId) {
+    return this._restrictedZoneRepo.getById(id);
   }
 }
 

@@ -1,4 +1,4 @@
-FROM node:16.17.1
+FROM node:18.18.2
 
 WORKDIR /app
 
@@ -10,7 +10,5 @@ RUN yarn install
 COPY . .
 
 RUN yarn build
-
-EXPOSE 8080
 
 CMD ["yarn", "start"]

@@ -4,7 +4,16 @@
     "title": "Kicksharing API",
     "version": "1.0.0"
   },
+  "servers": [
+    {
+      "url": "http://localhost/api/v1"
+    }
+  ],
   "tags": [
+    {
+      "name": "history",
+      "description": "История поездок"
+    },
     {
       "name": "bookings",
       "description": "Бронирования"
@@ -59,7 +68,7 @@
     },
     "parameters": {
       "PageSize": {
-        "name": "page_size",
+        "name": "pageSize",
         "in": "query",
         "schema": {
           "type": "integer",
@@ -77,7 +86,7 @@
         "description": "Номер страницы"
       },
       "MinimumLatitude": {
-        "name": "min_latitude",
+        "name": "minLatitude",
         "in": "query",
         "schema": {
           "type": "number"
@@ -85,7 +94,7 @@
         "description": "Минимальное значение широты"
       },
       "MaximumLatitude": {
-        "name": "max_latitude",
+        "name": "maxLatitude",
         "in": "query",
         "schema": {
           "type": "number"
@@ -93,7 +102,7 @@
         "description": "Максимальное значение широты"
       },
       "MinimumLongitude": {
-        "name": "min_longitude",
+        "name": "minLongitude",
         "in": "query",
         "schema": {
           "type": "number"
@@ -101,12 +110,12 @@
         "description": "Минимальное значение долготы"
       },
       "MaximumLongitude": {
-        "name": "max_longitude",
+        "name": "maxLongitude",
         "in": "query",
         "schema": {
           "type": "number"
         },
-        "description": "Максимальное значение широты"
+        "description": "Максимальное значение долготы"
       }
     },
     "responses": {
@@ -187,7 +196,7 @@
                   "type": "string",
                   "description": "Путь к полю в объекте запроса, с которым связана ошибка",
                   "nullable": true,
-                  "example": "user.first_name"
+                  "example": "user.firstName"
                 },
                 "message": {
                   "type": "string",
@@ -201,26 +210,36 @@
       "PaginatedResponse": {
         "type": "object",
         "properties": {
-          "count": {
+          "totalCount": {
             "type": "integer",
             "minimum": 0,
             "description": "Общее количество объектов"
           },
-          "next": {
-            "type": "string",
+          "nextPage": {
+            "type": "integer",
             "nullable": true,
-            "description": "URL запроса следующей страницы"
+            "description": "Номер следующей страницы"
           },
-          "previous": {
-            "type": "string",
+          "previousPage": {
+            "type": "integer",
             "nullable": true,
-            "description": "URL запроса предыдущей страницы"
+            "description": "Номер предыдущей страницы"
           },
           "results": {
             "type": "array",
             "items": {
               "type": "object"
             }
+          }
+        }
+      },
+      "CreateHistoryEntryRequest": {
+        "type": "object",
+        "properties": {
+          "rideId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Уникальный идентификатор поездки"
           }
         }
       },
@@ -244,42 +263,34 @@
             "properties": {
               "status": {
                 "type": "string",
-                "enum": [
-                  "pending",
-                  "active",
-                  "blocked"
-                ],
+                "enum": ["pending", "active", "blocked"],
                 "description": "Статус"
               },
-              "is_active": {
+              "isActive": {
                 "type": "boolean",
                 "description": "Является ли пользователь активным"
               },
               "role": {
                 "type": "string",
-                "enum": [
-                  "customer",
-                  "technician",
-                  "admin"
-                ],
+                "enum": ["customer", "technician", "admin"],
                 "description": "Роль"
               },
-              "date_joined": {
+              "dateJoined": {
                 "type": "string",
                 "format": "date-time",
                 "description": "Дата регистрации"
               },
-              "middle_name": {
+              "middleName": {
                 "type": "string",
                 "nullable": true,
                 "description": "Отчество"
               },
-              "last_name": {
+              "lastName": {
                 "type": "string",
                 "nullable": true,
                 "description": "Фамилия"
               },
-              "first_name": {
+              "firstName": {
                 "type": "string",
                 "nullable": true,
                 "description": "Имя"
@@ -337,7 +348,7 @@
                 "type": "string",
                 "description": "Название"
               },
-              "single_charge_mileage": {
+              "singleChargeMileage": {
                 "type": "number",
                 "minimum": 0,
                 "description": "Количество километров на одном заряде"
@@ -347,12 +358,12 @@
                 "minimum": 0,
                 "description": "Вес в килограммах"
               },
-              "max_speed": {
+              "maxSpeed": {
                 "type": "number",
                 "minimum": 0,
                 "description": "Максимальная скорость в км/ч"
               },
-              "max_load": {
+              "maxLoad": {
                 "type": "number",
                 "minimum": 0,
                 "description": "Максимальная нагрузка в килограммах"
@@ -379,10 +390,7 @@
             "properties": {
               "status": {
                 "type": "string",
-                "enum": [
-                  "enabled",
-                  "disabled"
-                ],
+                "enum": ["enabled", "disabled"],
                 "description": "Статус"
               },
               "number": {
@@ -410,12 +418,12 @@
               "scooter": {
                 "$ref": "#/components/schemas/Scooter"
               },
-              "date_started": {
+              "dateStarted": {
                 "type": "string",
                 "format": "date-time",
                 "description": "Дата начала бронирования"
               },
-              "date_finished": {
+              "dateFinished": {
                 "type": "string",
                 "format": "date-time",
                 "description": "Дата окончания бронирования"
@@ -444,12 +452,12 @@
       "Tariff": {
         "type": "object",
         "properties": {
-          "start_price": {
+          "startPrice": {
             "type": "integer",
             "minimum": 0,
             "description": "Цена за начало поездки в копейках"
           },
-          "per_minute_price": {
+          "perMinutePrice": {
             "type": "integer",
             "minimum": 0,
             "description": "Цена за минуту поездки в копейках"
@@ -493,7 +501,7 @@
             "format": "date-time",
             "description": "Дата получения от устройства"
           },
-          "meta_info": {
+          "metaInfo": {
             "type": "object",
             "nullable": true,
             "description": "Дополнительная информация"
@@ -501,42 +509,21 @@
           "location": {
             "$ref": "#/components/schemas/Location"
           },
-          "battery_level": {
+          "batteryLevel": {
             "type": "integer",
             "minimum": 0,
             "maximum": 100,
             "description": "Уровень заряда в количестве процентов"
           },
-          "lock_state": {
+          "lockState": {
             "type": "string",
-            "enum": [
-              "locked",
-              "unlocked"
-            ],
+            "enum": ["locked", "unlocked"],
             "description": "Состояние замка"
           },
-          "lights_state": {
+          "lightsState": {
             "type": "string",
-            "enum": [
-              "on",
-              "off"
-            ],
+            "enum": ["on", "off"],
             "description": "Состояние фар"
-          },
-          "estimates": {
-            "type": "object",
-            "properties": {
-              "time": {
-                "type": "integer",
-                "minimum": 0,
-                "description": "Оценка времени движения в секундах"
-              },
-              "distance": {
-                "type": "integer",
-                "minimum": 0,
-                "description": "Оценка расстояния движения в километрах"
-              }
-            }
           }
         }
       },
@@ -545,57 +532,12 @@
         "properties": {
           "status": {
             "type": "string",
-            "enum": [
-              "enabled",
-              "disabled"
-            ],
+            "enum": ["enabled", "disabled"],
             "description": "Статус"
           },
           "number": {
             "type": "string",
             "description": "Номер"
-          }
-        }
-      },
-      "CreatePingRequest": {
-        "type": "object",
-        "required": [
-          "scooter_id",
-          "location",
-          "battery_level",
-          "lock_state",
-          "lights_state"
-        ],
-        "properties": {
-          "meta_info": {
-            "type": "object",
-            "description": "Дополнительная информация",
-            "nullable": true
-          },
-          "location": {
-            "$ref": "#/components/schemas/Location"
-          },
-          "battery_level": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 100,
-            "description": "Уровень заряда в количестве процентов"
-          },
-          "lock_state": {
-            "type": "string",
-            "enum": [
-              "locked",
-              "unlocked"
-            ],
-            "description": "Состояние замка"
-          },
-          "lights_state": {
-            "type": "string",
-            "enum": [
-              "on",
-              "off"
-            ],
-            "description": "Состояние фар"
           }
         }
       },
@@ -628,22 +570,22 @@
               "scooter": {
                 "$ref": "#/components/schemas/Scooter"
               },
-              "start_price": {
+              "startPrice": {
                 "type": "integer",
                 "minimum": 0,
                 "description": "Цена за начало поездки в копейках"
               },
-              "per_minute_price": {
+              "perMinutePrice": {
                 "type": "integer",
                 "minimum": 0,
                 "description": "Цена за минуту поездки в копейках"
               },
-              "date_started": {
+              "dateStarted": {
                 "type": "string",
                 "format": "date-time",
                 "description": "Дата начала поездки"
               },
-              "date_finished": {
+              "dateFinished": {
                 "type": "string",
                 "format": "date-time",
                 "nullable": true,
@@ -654,7 +596,7 @@
                 "minimum": 0,
                 "description": "Продолжительность поездки в секундах"
               },
-              "total_price": {
+              "totalPrice": {
                 "type": "integer",
                 "minimum": 0,
                 "description": "Цена поездки в копейках"
@@ -669,18 +611,21 @@
           "subscription": {
             "$ref": "#/components/schemas/Subscription"
           },
-          "date_started": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "dateStarted": {
             "type": "string",
             "format": "date-time",
             "description": "Дата начала действия"
           },
-          "date_finished": {
+          "dateFinished": {
             "type": "string",
             "format": "date-time",
             "nullable": true,
             "description": "Дата окончания действия"
           },
-          "date_purchased": {
+          "datePurchased": {
             "type": "string",
             "format": "date-time",
             "description": "Дата покупки"
@@ -689,11 +634,9 @@
       },
       "CreatePurchaseRequest": {
         "type": "object",
-        "required": [
-          "subscription_id"
-        ],
+        "required": ["subscriptionId"],
         "properties": {
-          "subscription_id": {
+          "subscriptionId": {
             "type": "string",
             "format": "uuid",
             "description": "Уникальный идентификатор подписки"
@@ -715,7 +658,7 @@
                 },
                 "description": "Многоугольник-граница зоны"
               },
-              "speed_limit": {
+              "speedLimit": {
                 "type": "integer",
                 "minimum": 0,
                 "description": "Максимальная скорость в зоне"
@@ -726,11 +669,9 @@
       },
       "CreateBookingRequest": {
         "type": "object",
-        "required": [
-          "scooter_id"
-        ],
+        "required": ["scooterId"],
         "properties": {
-          "scooter_id": {
+          "scooterId": {
             "type": "string",
             "format": "uuid",
             "description": "Уникальный идентификатор самоката"
@@ -739,11 +680,9 @@
       },
       "CreateRideRequest": {
         "type": "object",
-        "required": [
-          "scooter_id"
-        ],
+        "required": ["scooterId"],
         "properties": {
-          "scooter_id": {
+          "scooterId": {
             "type": "string",
             "format": "uuid",
             "description": "Уникальный идентификатор самоката"
@@ -752,11 +691,9 @@
       },
       "UpdateRideRequest": {
         "type": "object",
-        "required": [
-          "date_finihsed"
-        ],
+        "required": ["dateFinished"],
         "properties": {
-          "date_finished": {
+          "dateFinished": {
             "type": "string",
             "format": "date-time",
             "description": "Дата завершения поездки"
@@ -766,15 +703,15 @@
       "UpdateCurrentUserRequest": {
         "type": "object",
         "properties": {
-          "middle_name": {
+          "middleName": {
             "type": "string",
             "nullable": true
           },
-          "last_name": {
+          "lastName": {
             "type": "string",
             "nullable": true
           },
-          "first_name": {
+          "firstName": {
             "type": "string",
             "nullable": true
           },
@@ -800,19 +737,11 @@
             "properties": {
               "status": {
                 "type": "string",
-                "enum": [
-                  "pending",
-                  "active",
-                  "blocked"
-                ]
+                "enum": ["pending", "active", "blocked"]
               },
               "role": {
                 "type": "string",
-                "enum": [
-                  "customer",
-                  "technician",
-                  "admin"
-                ]
+                "enum": ["customer", "technician", "admin"]
               }
             }
           }
@@ -823,14 +752,10 @@
   "paths": {
     "/bookings/": {
       "get": {
-        "tags": [
-          "bookings"
-        ],
+        "tags": ["bookings"],
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ],
         "summary": "Получить бронирования",
@@ -844,7 +769,7 @@
           },
           {
             "in": "query",
-            "name": "is_active",
+            "name": "isActive",
             "schema": {
               "type": "boolean"
             },
@@ -889,14 +814,10 @@
         }
       },
       "post": {
-        "tags": [
-          "bookings"
-        ],
+        "tags": ["bookings"],
         "security": [
           {
-            "bearerAuth": [
-              "customer"
-            ]
+            "bearerAuth": ["customer"]
           }
         ],
         "summary": "Создать бронирование",
@@ -913,14 +834,7 @@
         },
         "responses": {
           "201": {
-            "description": "Бронирование создано",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Booking"
-                }
-              }
-            }
+            "description": "Бронирование создано"
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
@@ -964,15 +878,10 @@
         }
       ],
       "get": {
-        "tags": [
-          "bookings"
-        ],
+        "tags": ["bookings"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "admin"]
           }
         ],
         "summary": "Получить бронирование",
@@ -1003,19 +912,14 @@
         }
       },
       "delete": {
-        "tags": [
-          "bookings"
-        ],
+        "tags": ["bookings"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "admin"
-            ]
+            "bearerAuth": ["customer"]
           }
         ],
         "summary": "Отменить бронирование",
-        "description": "Отменяет действующее бронирование.\n\nПользователь с ролью `customer` может отменить только своё бронирование.\n\nПользователь с ролью `admin` может отменить любое бронирование.\n",
+        "description": "Отменяет указанное бронирование.\n",
         "responses": {
           "200": {
             "description": "Бронирование отменено"
@@ -1047,9 +951,7 @@
     },
     "/parkings/": {
       "get": {
-        "tags": [
-          "parkings"
-        ],
+        "tags": ["parkings"],
         "summary": "Получить парковки",
         "description": "Возвращает список всех парковок.\n",
         "parameters": [
@@ -1118,9 +1020,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "parkings"
-        ],
+        "tags": ["parkings"],
         "summary": "Получить парковку",
         "description": "Возвращает информацию об указанной парковке.\n",
         "responses": {
@@ -1145,9 +1045,7 @@
     },
     "/restricted-zones/": {
       "get": {
-        "tags": [
-          "restricted-zones"
-        ],
+        "tags": ["restricted-zones"],
         "summary": "Получить зоны ограничения скорости",
         "description": "Возвращает список всех зон ограничения скорости.\n",
         "parameters": [
@@ -1216,9 +1114,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "restricted-zones"
-        ],
+        "tags": ["restricted-zones"],
         "summary": "Получить зону ограничения скорости",
         "description": "Возвращает информацию об указанной зоне ограничения скорости.\n",
         "responses": {
@@ -1243,14 +1139,10 @@
     },
     "/users/": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ],
         "summary": "Получить пользователей",
@@ -1269,38 +1161,6 @@
               "type": "string"
             },
             "description": "Строка-запрос поиска по ФИО/почте/телефону"
-          },
-          {
-            "in": "query",
-            "name": "status",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "pending",
-                  "active",
-                  "blocked"
-                ]
-              }
-            },
-            "description": "Статусы пользователей"
-          },
-          {
-            "in": "query",
-            "name": "role",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "customer",
-                  "technician",
-                  "admin"
-                ]
-              }
-            },
-            "description": "Роли пользователей"
           }
         ],
         "responses": {
@@ -1355,16 +1215,10 @@
         }
       ],
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "technician",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "technician", "admin"]
           }
         ],
         "summary": "Получить пользователя",
@@ -1395,16 +1249,10 @@
         }
       },
       "patch": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "technician",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "technician", "admin"]
           }
         ],
         "summary": "Изменить пользователя",
@@ -1457,16 +1305,10 @@
     },
     "/users/current/": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "technician",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "technician", "admin"]
           }
         ],
         "summary": "Получить текущего пользователя",
@@ -1494,16 +1336,10 @@
         }
       },
       "patch": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "technician",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "technician", "admin"]
           }
         ],
         "summary": "Изменить текущего пользователя",
@@ -1558,15 +1394,10 @@
         }
       ],
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "admin"]
           }
         ],
         "summary": "Получить бронирования",
@@ -1577,14 +1408,6 @@
           },
           {
             "$ref": "#/components/parameters/Page"
-          },
-          {
-            "in": "query",
-            "name": "is_active",
-            "schema": {
-              "type": "boolean"
-            },
-            "description": "Возвращать только действующие или только завершенные бронирования"
           }
         ],
         "responses": {
@@ -1627,14 +1450,10 @@
     },
     "/users/current/bookings/": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "customer"
-            ]
+            "bearerAuth": ["customer"]
           }
         ],
         "summary": "Получить бронирования",
@@ -1645,14 +1464,6 @@
           },
           {
             "$ref": "#/components/parameters/Page"
-          },
-          {
-            "in": "query",
-            "name": "is_active",
-            "schema": {
-              "type": "boolean"
-            },
-            "description": "Возвращать только действующие или только завершенные бронирования"
           }
         ],
         "responses": {
@@ -1707,15 +1518,10 @@
         }
       ],
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "admin"]
           }
         ],
         "summary": "Получить все поездки",
@@ -1726,14 +1532,6 @@
           },
           {
             "$ref": "#/components/parameters/Page"
-          },
-          {
-            "in": "query",
-            "name": "is_active",
-            "schema": {
-              "type": "boolean"
-            },
-            "description": "Возвращать только действующие или только завершенные поездки"
           }
         ],
         "responses": {
@@ -1776,14 +1574,10 @@
     },
     "/users/current/rides/": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "customer"
-            ]
+            "bearerAuth": ["customer"]
           }
         ],
         "summary": "Получить все поездки",
@@ -1794,14 +1588,130 @@
           },
           {
             "$ref": "#/components/parameters/Page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginatedResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Ride"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/users/{id}/history/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "Уникальный идентификатор пользователя"
+        }
+      ],
+      "get": {
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": ["customer", "admin"]
+          }
+        ],
+        "summary": "Получить историю поездок",
+        "description": "Возвращает историю поездок пользователя.\n\nПользователь с ролью `customer` можеть получить только свои поездки.\n\nПользователь с ролью `admin` можеть получить поездки любого пользователя.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PageSize"
           },
           {
-            "in": "query",
-            "name": "is_active",
-            "schema": {
-              "type": "boolean"
-            },
-            "description": "Возвращать только действующие или только завершенные поездки"
+            "$ref": "#/components/parameters/Page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginatedResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Ride"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/users/current/history/": {
+      "get": {
+        "tags": ["users"],
+        "security": [
+          {
+            "bearerAuth": ["customer"]
+          }
+        ],
+        "summary": "Получить историю поездок",
+        "description": "Возвращает историю поездок текущего пользователя.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PageSize"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
           }
         ],
         "responses": {
@@ -1856,15 +1766,10 @@
         }
       ],
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "admin"]
           }
         ],
         "summary": "Получить покупки",
@@ -1917,14 +1822,10 @@
     },
     "/users/current/purchases/": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
-            "bearerAuth": [
-              "customer"
-            ]
+            "bearerAuth": ["customer"]
           }
         ],
         "summary": "Получить покупки",
@@ -1977,16 +1878,10 @@
     },
     "/tariff/": {
       "get": {
-        "tags": [
-          "tariff"
-        ],
+        "tags": ["tariff"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "technician",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "technician", "admin"]
           }
         ],
         "summary": "Получить тариф",
@@ -2016,14 +1911,10 @@
     },
     "/rides/": {
       "get": {
-        "tags": [
-          "rides"
-        ],
+        "tags": ["rides"],
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ],
         "summary": "Получить все поездки",
@@ -2037,7 +1928,7 @@
           },
           {
             "in": "query",
-            "name": "is_active",
+            "name": "isActive",
             "schema": {
               "type": "boolean"
             },
@@ -2082,14 +1973,10 @@
         }
       },
       "post": {
-        "tags": [
-          "rides"
-        ],
+        "tags": ["rides"],
         "security": [
           {
-            "bearerAuth": [
-              "customer"
-            ]
+            "bearerAuth": ["customer"]
           }
         ],
         "summary": "Создать поездку",
@@ -2106,14 +1993,7 @@
         },
         "responses": {
           "201": {
-            "description": "Поездка создана",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Ride"
-                }
-              }
-            }
+            "description": "Поездка создана"
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
@@ -2154,15 +2034,10 @@
         }
       ],
       "get": {
-        "tags": [
-          "rides"
-        ],
+        "tags": ["rides"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "admin"]
           }
         ],
         "summary": "Получить поездку",
@@ -2191,41 +2066,85 @@
             "$ref": "#/components/responses/InternalServerError"
           }
         }
-      },
-      "patch": {
-        "tags": [
-          "rides"
-        ],
+      }
+    },
+    "/history/": {
+      "get": {
+        "tags": ["history"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ],
-        "summary": "Изменить поездку",
-        "description": "Обновляет информацию об указанной поездке.\n\nПользователь с ролью `customer` может обновить только свою поездку.\n\nПользователь с ролью `admin` может обновить любую поездку.\n",
+        "summary": "Получить историю поездок",
+        "description": "Возвращает список завершенных поездок всех пользователей.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PageSize"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginatedResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Ride"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["history"],
+        "security": [
+          {
+            "bearerAuth": ["customer"]
+          }
+        ],
+        "summary": "Добавить поездку в историю",
+        "description": "Добавляет активную поездку в историю (завершает её).\n",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateRideRequest"
+                "$ref": "#/components/schemas/CreateHistoryEntryRequest"
               }
             }
           },
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Поездка обновлена",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Ride"
-                }
-              }
-            }
+          "201": {
+            "description": "Поездка добавлена"
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
@@ -2240,7 +2159,7 @@
             "$ref": "#/components/responses/NotFound"
           },
           "409": {
-            "description": "Самокат находится в неправильном состоянии: например, \nне арендован.\n",
+            "description": "Поездка находится в неправильном состоянии: уже завершена, и т.д.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -2257,19 +2176,14 @@
     },
     "/scooters/": {
       "get": {
-        "tags": [
-          "scooters"
-        ],
+        "tags": ["scooters"],
         "security": [
           {
-            "bearerAuth": [
-              "technician",
-              "admin"
-            ]
+            "bearerAuth": ["technician", "admin"]
           }
         ],
         "summary": "Получить самокаты",
-        "description": "Возвращает список всех самокатов.\n\nПользователь с ролью `technician` видит только разряженные самокаты.\n\nПользователь с ролью `admin` видит все самокаты.\n",
+        "description": "Возвращает список всех самокатов.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/PageSize"
@@ -2310,9 +2224,6 @@
           "403": {
             "$ref": "#/components/responses/Forbidden"
           },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
           }
@@ -2333,19 +2244,14 @@
         }
       ],
       "get": {
-        "tags": [
-          "scooters"
-        ],
+        "tags": ["scooters"],
         "security": [
           {
-            "bearerAuth": [
-              "technician",
-              "admin"
-            ]
+            "bearerAuth": ["technician", "admin"]
           }
         ],
         "summary": "Получить самокат",
-        "description": "Возвращает информацию о самокате.\n\nПользователь с ролью `technician` может получить только разряженный самокат.\n\nПользователь с ролью `admin` может получить любой самокат.\n",
+        "description": "Возвращает информацию о самокате.\n",
         "responses": {
           "200": {
             "description": "Успех",
@@ -2372,14 +2278,10 @@
         }
       },
       "patch": {
-        "tags": [
-          "scooters"
-        ],
+        "tags": ["scooters"],
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ],
         "summary": "Изменить самокат",
@@ -2434,79 +2336,15 @@
       }
     },
     "/pings/": {
-      "post": {
-        "tags": [
-          "pings"
-        ],
-        "security": [
-          {
-            "bearerAuth": [
-              "scooter"
-            ]
-          }
-        ],
-        "summary": "Создать запись о состоянии самоката",
-        "description": "Создает новую запись о состоянии самоката.\n",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePingRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Запись создана",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Ping"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "409": {
-            "description": "Самокат находится в неправильном состоянии: например,\nдеактивирован.\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "$ref": "#/components/responses/InternalServerError"
-          }
-        }
-      },
       "get": {
-        "tags": [
-          "pings"
-        ],
+        "tags": ["pings"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "technician",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "technician", "admin"]
           }
         ],
         "summary": "Получить записи о состояниях самокатов",
-        "description": "Возвращает список записей о состояниях самокатов.\n\nПользователь с ролью `customer` получает только последние записи \nдоступных для аренды самокатов.\n\nПользователь с ролью `technician` получает только последние записи\nразряженных самокатов.\n\nПользователь с ролью `admin` получает все записи всех самокатов.\n",
+        "description": "Возвращает список записей о состояниях самокатов.\n\nПользователь с ролью `customer` получает только последние записи \nдоступных для аренды самокатов.\n\nПользователь с ролью `technician` получает только записи\nразряженных самокатов.\n\nПользователь с ролью `admin` получает все записи всех самокатов.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/PageSize"
@@ -2525,14 +2363,6 @@
           },
           {
             "$ref": "#/components/parameters/MaximumLongitude"
-          },
-          {
-            "in": "query",
-            "name": "recent_only",
-            "schema": {
-              "type": "boolean"
-            },
-            "description": "Показывать ли только последние записи для каждого самоката"
           }
         ],
         "responses": {
@@ -2564,9 +2394,6 @@
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
           }
@@ -2575,14 +2402,10 @@
     },
     "/settings/": {
       "get": {
-        "tags": [
-          "settings"
-        ],
+        "tags": ["settings"],
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ],
         "summary": "Получить настройки сервиса",
@@ -2610,14 +2433,10 @@
         }
       },
       "patch": {
-        "tags": [
-          "settings"
-        ],
+        "tags": ["settings"],
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ],
         "summary": "Изменить настройки сервиса",
@@ -2634,14 +2453,7 @@
         },
         "responses": {
           "200": {
-            "description": "Настройки обновлены",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
+            "description": "Настройки обновлены"
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
@@ -2660,15 +2472,10 @@
     },
     "/subscriptions/": {
       "get": {
-        "tags": [
-          "subscriptions"
-        ],
+        "tags": ["subscriptions"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "admin"]
           }
         ],
         "summary": "Получить подписки",
@@ -2733,15 +2540,10 @@
         }
       ],
       "get": {
-        "tags": [
-          "subscriptions"
-        ],
+        "tags": ["subscriptions"],
         "security": [
           {
-            "bearerAuth": [
-              "customer",
-              "admin"
-            ]
+            "bearerAuth": ["customer", "admin"]
           }
         ],
         "summary": "Получить подписку",
@@ -2774,14 +2576,10 @@
     },
     "/purchases/": {
       "get": {
-        "tags": [
-          "purchases"
-        ],
+        "tags": ["purchases"],
         "security": [
           {
-            "bearerAuth": [
-              "admin"
-            ]
+            "bearerAuth": ["admin"]
           }
         ],
         "summary": "Получить покупки",
@@ -2832,14 +2630,10 @@
         }
       },
       "post": {
-        "tags": [
-          "purchases"
-        ],
+        "tags": ["purchases"],
         "security": [
           {
-            "bearerAuth": [
-              "customer"
-            ]
+            "bearerAuth": ["customer"]
           }
         ],
         "summary": "Создать покупку",
@@ -2856,14 +2650,7 @@
         },
         "responses": {
           "201": {
-            "description": "Покупка создана",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Purchase"
-                }
-              }
-            }
+            "description": "Покупка создана"
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
