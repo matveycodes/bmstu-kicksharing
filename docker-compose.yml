@@ -19,14 +19,6 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
-  frontend_legacy:
-    build:
-      context: ./frontend_legacy
-      dockerfile: Dockerfile
-      args:
-        REACT_APP_API_URL: ${REACT_APP_API_URL:-http://localhost/api/v1/}
-    restart: "no"
-
   nginx:
     image: nginx:1.25.2
     restart: unless-stopped
@@ -36,8 +28,6 @@ services:
       BACKEND_PORT: 3000
       PG_WEB_HOST: pg_web
       PG_WEB_PORT: 80
-      FRONTEND_LEGACY_HOST: frontend_legacy
-      FRONTEND_LEGACY_PORT: 3000
     depends_on:
       - backend
       - pg_web
