@@ -3,6 +3,7 @@ import express, { json } from "express";
 import "express-async-errors";
 import bearerToken from "express-bearer-token";
 import cors from "cors";
+import helmet from "helmet";
 
 import { CONFIG } from "./config";
 import { ParkingController } from "./controllers/parking";
@@ -58,8 +59,7 @@ import { ScooterService } from "./services/scooter";
 import { historyRouter } from "./routers/history";
 import { HistoryController } from "./controllers/history";
 import { createPostgresRepos } from "./repos/postgres";
-
-const app = express();
+import { headers } from "./middlewares/headers";
 
 const postgresPool = createPostgresPool();
 const repos = createPostgresRepos(postgresPool);
@@ -189,12 +189,16 @@ const historyController = new HistoryController({
   rideSerializer,
 });
 
+const app = express();
+
 app.use(bearerToken());
 app.use(json());
 app.use(cors());
+app.use(helmet());
 
 app.use(pagination(CONFIG.DEFAULT_PAGINATION_PAGE_SIZE));
 app.use(user(authService));
+app.use(headers());
 
 app.use(authRouter(authController));
 app.use(parkingRouter(parkingController));
