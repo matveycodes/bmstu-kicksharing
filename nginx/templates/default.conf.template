@@ -1,6 +1,6 @@
 upstream backend_ro {
     server ${BACKEND_HOST}:${BACKEND_PORT} weight=2;
-    server ${BACKEND_RO_HOST}:${BACKEND_RO_PORT} down;
+    server ${BACKEND_RO_HOST}:${BACKEND_RO_PORT};
 }
 
 map $request_method $backend_location {
