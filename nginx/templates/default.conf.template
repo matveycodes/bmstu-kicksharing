@@ -8,39 +8,26 @@ map $request_method $backend_location {
    default ${BACKEND_HOST}:${BACKEND_PORT};
 }
 
+proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=default_cache:10m max_size=2g;
+
 server {
     listen ${PORT} default;
 
     resolver 127.0.0.11 valid=5s ipv6=off;
 
     gzip on;
-    gzip_disable "msie6";
-    gzip_vary on;
-    gzip_proxied any;
-    gzip_comp_level 6;
-    gzip_buffers 16 8k;
-    gzip_http_version 1.1;
-    gzip_min_length 256;
-    gzip_types
-      application/atom+xml
-      application/geo+json
-      application/javascript
-      application/x-javascript
-      application/json
-      application/ld+json
-      application/manifest+json
-      application/rdf+xml
-      application/rss+xml
-      application/xhtml+xml
-      application/xml
-      font/eot
-      font/otf
-      font/ttf
-      image/svg+xml
-      text/css
-      text/javascript
-      text/plain
-      text/xml;
+    gzip_comp_level 5;
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+    proxy_ignore_headers Cache-Control;
+    proxy_hide_header Cache-Control;
+
+    proxy_cache_key $scheme$request_method$host$request_uri;
+    proxy_cache default_cache;
+    proxy_cache_methods GET;
+    proxy_cache_min_uses 2;
+    proxy_cache_valid 200 301 302 120m;
+    proxy_cache_valid 404 1m;
 
     location / {
         root /var/www/frontend/static/;
@@ -48,8 +35,7 @@ server {
     }
 
     location /test {
-        alias /var/www/frontend/static/;
-        index index.html;
+        return 301 /;
     }
 
     location = /status {
@@ -63,9 +49,22 @@ server {
 
     location /api/v1/ {
         rewrite ^/api/v1/(.*)$ /$1 break;
+
+        proxy_no_cache 1;
         proxy_pass_header Server;
         proxy_set_header Host $http_host;
+
         proxy_pass http://$backend_location;
+    }
+
+    location /mirror1/api/v1/ {
+        rewrite ^/mirror1/api/v1/(.*)$ /$1 break;
+
+        proxy_no_cache 1;
+        proxy_pass_header Server;
+        proxy_set_header Host $http_host;
+
+        proxy_pass http://backend_ro;
     }
 
     location /admin/pg/ {
