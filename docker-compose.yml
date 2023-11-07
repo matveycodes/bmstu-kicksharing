@@ -33,7 +33,7 @@ services:
       - pg_web
     volumes:
       - ./nginx/templates:/etc/nginx/templates
-      - ./README.md:/var/www/docs/README.md
+      - ./docs/README.md:/var/www/docs/README.md
       - ./frontend:/var/www/frontend
     ports:
       - "80:80"
