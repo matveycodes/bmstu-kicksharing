@@ -1,11 +1,20 @@
 {
   "Servers": {
-    "1": {
-      "Name": "Kicksharing",
+    "Master": {
+      "Name": "Master",
       "Group": "Servers",
       "Port": 5432,
       "Username": "postgres",
-      "Host": "pg_db",
+      "Host": "pg_db_master",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres"
+    },
+    "Slave": {
+      "Name": "Slave",
+      "Group": "Servers",
+      "Port": 5432,
+      "Username": "postgres",
+      "Host": "pg_db_slave",
       "SSLMode": "prefer",
       "MaintenanceDB": "postgres"
     }
