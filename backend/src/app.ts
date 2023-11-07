@@ -4,6 +4,7 @@ import "express-async-errors";
 import bearerToken from "express-bearer-token";
 import cors from "cors";
 import helmet from "helmet";
+import morgan from "morgan";
 
 import { CONFIG } from "./config";
 import { ParkingController } from "./controllers/parking";
@@ -191,6 +192,7 @@ const historyController = new HistoryController({
 
 const app = express();
 
+app.use(morgan("tiny"));
 app.use(bearerToken());
 app.use(json());
 app.use(cors());

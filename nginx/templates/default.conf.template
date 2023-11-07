@@ -1,5 +1,17 @@
+upstream backend_ro {
+    server ${BACKEND_HOST}:${BACKEND_PORT} weight=2;
+    server ${BACKEND_RO_HOST}:${BACKEND_RO_PORT} down;
+}
+
+map $request_method $backend_location {
+   GET backend_ro;
+   default ${BACKEND_HOST}:${BACKEND_PORT};
+}
+
 server {
     listen ${PORT} default;
+
+    resolver 127.0.0.11 valid=5s ipv6=off;
 
     location / {
         root /var/www/frontend/static/;
@@ -24,7 +36,7 @@ server {
         rewrite ^/api/v1/(.*)$ /$1 break;
         proxy_pass_header Server;
         proxy_set_header Host $http_host;
-        proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT};
+        proxy_pass http://$backend_location;
     }
 
     location /admin/pg/ {
