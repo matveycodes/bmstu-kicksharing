@@ -61,6 +61,7 @@ import { historyRouter } from "./routers/history";
 import { HistoryController } from "./controllers/history";
 import { createPostgresRepos } from "./repos/postgres";
 import { headers } from "./middlewares/headers";
+import { readonly } from "./middlewares/readonly";
 
 const postgresPool = createPostgresPool();
 const repos = createPostgresRepos(postgresPool);
@@ -198,6 +199,7 @@ app.use(json());
 app.use(cors());
 app.use(helmet());
 
+app.use(readonly());
 app.use(pagination(CONFIG.DEFAULT_PAGINATION_PAGE_SIZE));
 app.use(user(authService));
 app.use(headers());

@@ -116,6 +116,15 @@ const handleUnknownError: ErrorRequestHandler = (_, __, res) => {
   res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response);
 };
 
+const handleMethodNotAllowedError: ErrorRequestHandler = (_, __, res) => {
+  const response: ErrorResponse = {
+    type: "MethodNotAllowedError",
+    errors: [{ message: "HTTP-метод не поддерживается", path: null }],
+  };
+
+  res.status(StatusCodes.METHOD_NOT_ALLOWED).json(response);
+};
+
 const ERROR_HANDLER_MAP: Record<string, ErrorRequestHandler> = {
   ZodError: handleZodError,
   BadStateError: handleBadStateError,
@@ -124,6 +133,7 @@ const ERROR_HANDLER_MAP: Record<string, ErrorRequestHandler> = {
   PermissionError: handlePermissionError,
   UnauthorizedError: handleUnauthorizedError,
   ValidationError: handleValidationError,
+  MethodNotAllowedError: handleMethodNotAllowedError,
 };
 
 const errorHandler = (): ErrorRequestHandler => (err, req, res, next) => {

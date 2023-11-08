@@ -1,11 +1,22 @@
 upstream backend_ro {
-    server ${BACKEND_HOST}:${BACKEND_PORT} weight=2;
     server ${BACKEND_RO_HOST}:${BACKEND_RO_PORT};
 }
 
+upstream backend_get {
+    server ${BACKEND_HOST}:${BACKEND_PORT} fail_timeout=5s weight=2;
+    server ${BACKEND_RO_HOST}:${BACKEND_RO_PORT} fail_timeout=5s;
+}
+
+upstream backend_set {
+    server ${BACKEND_HOST}:${BACKEND_PORT};
+}
+
 map $request_method $backend_location {
-   GET backend_ro;
-   default ${BACKEND_HOST}:${BACKEND_PORT};
+    POST backend_set;
+    PATCH backend_set;
+    PUT backend_set;
+    DELETE backend_set;
+    default backend_get;
 }
 
 proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=default_cache:10m max_size=2g;
@@ -25,8 +36,7 @@ server {
     proxy_cache_key $scheme$request_method$host$request_uri;
     proxy_cache default_cache;
     proxy_cache_methods GET;
-    proxy_cache_min_uses 2;
-    proxy_cache_valid 200 301 302 120m;
+    proxy_cache_valid 2h;
     proxy_cache_valid 404 1m;
 
     location / {
