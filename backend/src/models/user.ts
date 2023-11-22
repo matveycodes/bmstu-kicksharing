@@ -126,7 +126,9 @@ class User extends BaseModel<UserId> {
       firstName: this.firstName ?? null,
       email: this.email ?? null,
       phone: this.phone,
-      birthdate: this.birthdate?.toISOString().split("T")[0] ?? null,
+      birthdate: this.birthdate
+        ? dayjs(this.birthdate).format("YYYY-MM-DD")
+        : null,
       age: this.age ?? null,
     };
   }

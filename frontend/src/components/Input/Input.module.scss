@@ -1,0 +1,19 @@
+@use "../../styles/variables" as v;
+
+.input {
+  border: none;
+  background: v.$background-color-light;
+  color: v.$text-color;
+  border-radius: v.$border-radius;
+  height: 35px;
+  padding: 0 16px;
+  font: inherit;
+
+  &::placeholder {
+    color: v.$secondary-color;
+  }
+
+  &:focus {
+    outline: 2px solid v.$brand-color;
+  }
+}

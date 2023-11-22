@@ -1,0 +1,10 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12.5px;
+  pointer-events: none;
+
+  > * {
+    pointer-events: all;
+  }
+}

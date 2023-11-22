@@ -1,0 +1,12 @@
+@use "../../styles/variables" as v;
+
+.tab {
+  padding-bottom: 8px;
+  margin-bottom: -2px;
+  cursor: pointer;
+}
+
+.selected {
+  border-bottom: 2px solid v.$brand-color;
+  color: v.$brand-color;
+}

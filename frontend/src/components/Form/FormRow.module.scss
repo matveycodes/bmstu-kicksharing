@@ -1,0 +1,9 @@
+.row {
+  display: grid;
+  gap: 12.5px;
+
+  @media screen and (max-width: 720px) {
+    grid-template-columns: auto !important;
+    gap: 25px;
+  }
+}

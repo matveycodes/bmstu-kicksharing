@@ -36,6 +36,15 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - BACKEND_URL=${FRONTEND_API_URL}
+    volumes:
+      - static:/app/dist/
+
   nginx:
     image: nginx:1.25.2
     restart: unless-stopped
@@ -51,10 +60,11 @@ services:
       - backend
       - backend_ro
       - pg_web
+      - frontend
     volumes:
       - ./nginx/templates:/etc/nginx/templates
       - ./docs/README.md:/var/www/docs/README.md
-      - ./frontend:/var/www/frontend
+      - static:/var/www
     ports:
       - "80:80"
 
@@ -113,3 +123,4 @@ services:
 
 volumes:
   pg_master_data:
+  static:

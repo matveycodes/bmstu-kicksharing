@@ -1,0 +1,19 @@
+@use "../../../styles/variables" as v;
+
+.card {
+  background-color: v.$background-color-light;
+  color: v.$text-color;
+  height: 70px;
+  padding: 0 18.75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: v.$border-radius;
+  gap: 8px;
+
+  > * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

@@ -1,0 +1,38 @@
+@use "../../styles/variables" as v;
+
+.overlay {
+  position: fixed;
+  z-index: 1;
+  display: flex;
+  inset: 0;
+  opacity: 0;
+  transition-property: transform, opacity;
+  transition-duration: v.$transition-duration;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(5px);
+  backdrop-filter: grayscale(1);
+  padding: 25px;
+  overflow: auto;
+
+  &:global(.ReactModal__Overlay--after-open) {
+    opacity: 1;
+    transform: none;
+  }
+
+  &:global(.ReactModal__Overlay--before-close) {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+}
+
+.content {
+  background: v.$background-color;
+  color: v.$text-color;
+  overflow: auto;
+  border-radius: v.$border-radius;
+  outline: none;
+  margin: auto;
+  padding: 25px;
+  display: grid;
+  gap: 25px;
+}

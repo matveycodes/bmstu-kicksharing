@@ -1,0 +1,7 @@
+@use "../../styles/variables" as v;
+
+.list {
+  display: flex;
+  gap: 25px;
+  border-bottom: 2px solid v.$secondary-color;
+}

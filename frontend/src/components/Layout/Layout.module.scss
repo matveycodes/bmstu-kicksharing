@@ -1,0 +1,33 @@
+.controlPanel {
+  --padding: 25px;
+
+  position: fixed;
+  height: 100%;
+  top: var(--padding);
+  left: var(--padding);
+  z-index: 1;
+  width: 375px;
+  max-height: calc(100vh - var(--padding) * 2);
+  overflow: auto;
+  max-width: calc(100% - var(--padding) * 2);
+
+  @media screen and (max-width: 720px) {
+    --padding: 12.5px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .banners {
+    margin-top: auto;
+  }
+}
+
+.mapWrapper {
+  position: relative;
+  z-index: 0;
+}
+
+.map {
+  width: 100dvw;
+  height: 100dvh;
+}

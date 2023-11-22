@@ -22,7 +22,7 @@ class AuthService implements IAuthService {
 
   private _smsGateway: ISmsGateway;
 
-  private static CODE_LENGTH = 6;
+  private static CODE_LENGTH = 4;
   private static TOKEN_TTL_SECONDS = SECONDS_IN_MONTH;
 
   public constructor(dto: CreateAuthServiceDto) {

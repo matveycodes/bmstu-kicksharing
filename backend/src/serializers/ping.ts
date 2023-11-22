@@ -22,6 +22,7 @@ class PingSerializer implements IPingSerializer {
   private async serializeOne({ scooterId, ...ping }: Ping) {
     const scooter = await this._scooterRepo.getById(scooterId);
     const serializedScooter = await this._scooterSerializer.serialize(scooter);
+
     return { ...ping, scooter: serializedScooter };
   }
 

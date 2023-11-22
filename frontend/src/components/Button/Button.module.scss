@@ -1,0 +1,74 @@
+@use "../../styles/variables" as v;
+
+.button {
+  margin: 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font: inherit;
+  background: none;
+  padding: 0;
+  min-width: fit-content;
+  font-weight: 700;
+  transition-property: transform, opacity;
+  transition-duration: v.$transition-duration;
+  position: relative;
+
+  &:active {
+    transform: translateY(2px);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+.primary,
+.secondary {
+  border-radius: v.$border-radius;
+  height: 35px;
+  padding: 0 16px;
+}
+
+.primary {
+  background: v.$brand-color;
+  color: v.$background-color;
+}
+
+.secondary {
+  background: v.$background-color-light;
+  color: v.$text-color;
+}
+
+.link {
+  color: v.$brand-color;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    border-bottom-color: currentColor;
+  }
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity v.$transition-duration linear;
+  pointer-events: none;
+}
+
+.content {
+  transition: opacity v.$transition-duration linear;
+}
+
+.loading .loader {
+  opacity: 1;
+}
+
+.loading .content {
+  opacity: 0;
+}

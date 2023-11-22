@@ -1,0 +1,30 @@
+@use "../../../styles/variables" as v;
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: v.$background-color-light;
+  color: v.$text-color;
+  border-radius: v.$border-radius;
+  height: 70px;
+  padding: 0 18.75px;
+  gap: 50px;
+}
+
+.info {
+  display: grid;
+  gap: 4px;
+}
+
+.description {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  > *:not(:first-child)::before {
+    content: "|";
+    color: v.$secondary-color;
+    margin-right: 8px;
+  }
+}

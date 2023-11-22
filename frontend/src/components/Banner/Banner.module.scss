@@ -1,0 +1,12 @@
+@use "../../styles/variables" as v;
+
+.banner {
+  padding: 25px;
+  color: v.$text-color;
+  background: v.$background-color-light;
+  border-radius: v.$border-radius;
+}
+
+.title {
+  margin-bottom: 12.5px;
+}
