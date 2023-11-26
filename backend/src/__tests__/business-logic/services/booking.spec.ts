@@ -236,24 +236,26 @@ describe("BookingService", () => {
       // Assert
       await expect(cancelPromise).rejects.toThrow(BadStateError);
     });
-  });
 
-  it("Успешно завершается бронирование", async () => {
-    // Arrange
-    const { bookingRepo, bookingService } = getMocks();
+    it("Успешно завершается бронирование", async () => {
+      // Arrange
+      const { bookingRepo, bookingService } = getMocks();
 
-    const booking = BookingMother.anActiveBooking().build();
-    await bookingRepo.save(booking);
+      const booking = BookingMother.anActiveBooking().build();
+      await bookingRepo.save(booking);
 
-    // Act
-    await bookingService.cancel(booking.id);
+      // Act
+      await bookingService.cancel(booking.id);
 
-    // Assert
-    const activeBookings = await bookingRepo.getActiveByUserId(booking.userId);
-    expect(activeBookings).toHaveLength(0);
+      // Assert
+      const activeBookings = await bookingRepo.getActiveByUserId(
+        booking.userId
+      );
+      expect(activeBookings).toHaveLength(0);
 
-    const { results: finishedBookings } =
-      await bookingRepo.getFinishedPaginated({ pageSize: 1, page: 1 });
-    expect(finishedBookings).toHaveLength(1);
+      const { results: finishedBookings } =
+        await bookingRepo.getFinishedPaginated({ pageSize: 1, page: 1 });
+      expect(finishedBookings).toHaveLength(1);
+    });
   });
 });

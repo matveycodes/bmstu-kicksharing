@@ -39,23 +39,23 @@ describe("UserService", () => {
       await expect(updatePromise).rejects.toThrow(ValidationError);
       jest.useRealTimers();
     });
-  });
 
-  it("Пользователь становится активным, если возраст достаточный", async () => {
-    // Arrange
-    const { userRepo, settingRepo, userService } = getMocks();
+    it("Пользователь становится активным, если возраст достаточный", async () => {
+      // Arrange
+      const { userRepo, settingRepo, userService } = getMocks();
 
-    const user = UserMother.aPendingCustomer().build();
-    await userRepo.save(user);
+      const user = UserMother.aPendingCustomer().build();
+      await userRepo.save(user);
 
-    const setting = SettingMother.aMinUserAgeSetting().build();
-    await settingRepo.save(setting);
+      const setting = SettingMother.aMinUserAgeSetting().build();
+      await settingRepo.save(setting);
 
-    // Act
-    await userService.update(user.id, { birthdate: new Date("2001-01-01") });
+      // Act
+      await userService.update(user.id, { birthdate: new Date("2001-01-01") });
 
-    // Assert
-    const updatedUser = await userRepo.getById(user.id);
-    expect(updatedUser.isActive).toBeTruthy();
+      // Assert
+      const updatedUser = await userRepo.getById(user.id);
+      expect(updatedUser.isActive).toBeTruthy();
+    });
   });
 });
