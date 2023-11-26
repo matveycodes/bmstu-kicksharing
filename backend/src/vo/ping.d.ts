@@ -1,5 +1,5 @@
 import { ScooterId } from "../models/scooter";
-import { Location } from "../types/location";
+import { GPSLocation } from "../types/gps-location";
 
 type LockState = "locked" | "unlocked";
 
@@ -9,7 +9,7 @@ interface Ping {
   scooterId: ScooterId;
   date: Date;
   metaInfo?: Record<string, unknown>;
-  location: Location;
+  location: GPSLocation;
   batteryLevel: number;
   lockState: LockState;
   lightsState: LightsState;

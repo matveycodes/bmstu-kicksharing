@@ -2,6 +2,8 @@
 dist
 node_modules
 test
+allure-report
+allure-results
 
 # Logs
 logs

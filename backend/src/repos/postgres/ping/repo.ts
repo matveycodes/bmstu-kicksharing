@@ -3,6 +3,7 @@ import { IPingRepo } from "../../../interfaces/ping-repo";
 import { ScooterId } from "../../../models/scooter";
 import { Bounds } from "../../../vo/bounds";
 import { PaginationRequest } from "../../../vo/pagination";
+import { Ping } from "../../../vo/ping";
 import { PostgresPool } from "../pool";
 import { selectWithPagination } from "../utils";
 import * as QUERIES from "./queries";
@@ -121,6 +122,11 @@ class PingPostgresRepo implements IPingRepo {
     } catch {
       throw new DataAccessError("Не удалось получить записи о состоянии");
     }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async save(ping: Ping) {
+    throw "Not implemented";
   }
 }
 

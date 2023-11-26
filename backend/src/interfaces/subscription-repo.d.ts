@@ -7,6 +7,7 @@ interface ISubscriptionRepo {
     pagination: PaginationRequest
   ): Promise<PaginatedResponse<Subscription>>;
   getById(id: SubscriptionId): Promise<Subscription>;
+  save(subscription: Subscription): Promise<void>;
 }
 
 export { ISubscriptionRepo };

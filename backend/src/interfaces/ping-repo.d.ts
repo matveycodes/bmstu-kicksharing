@@ -26,6 +26,7 @@ interface IPingRepo {
     pagination: PaginationRequest
   ): Promise<PaginatedResponse<Ping>>;
   getLatestByScooterId(scooterId: ScooterId): Promise<Ping | null>;
+  save(ping: Ping): Promise<void>;
 }
 
 export { IPingRepo };

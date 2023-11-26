@@ -104,8 +104,8 @@ class BookingService implements IBookingService {
   }
 
   public async create(scooterId: ScooterId, userId: UserId) {
-    await this.ensureScooterIsBookable(scooterId);
     await this.ensureUserCanBook(userId);
+    await this.ensureScooterIsBookable(scooterId);
 
     const dateStarted = new Date();
     const duration = +(

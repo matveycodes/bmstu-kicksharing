@@ -3,7 +3,7 @@ import * as crypto from "crypto";
 import { DataAccessError } from "../../../errors/data-access";
 import { NotFoundError } from "../../../errors/not-found";
 import { ISubscriptionRepo } from "../../../interfaces/subscription-repo";
-import { SubscriptionId } from "../../../models/subscription";
+import { Subscription, SubscriptionId } from "../../../models/subscription";
 import { PaginationRequest } from "../../../vo/pagination";
 import { PostgresPool } from "../pool";
 import { selectWithPagination } from "../utils";
@@ -55,6 +55,11 @@ class SubscriptionPostgresRepo implements ISubscriptionRepo {
     }
 
     return parseSubscriptionRow(row);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async save(subscription: Subscription) {
+    throw "Not implemented";
   }
 }
 

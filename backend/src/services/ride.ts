@@ -103,8 +103,8 @@ class RideService implements IRideService {
   }
 
   public async create(scooterId: ScooterId, userId: UserId) {
-    await this.ensureScooterIsRentable(scooterId);
     await this.ensureUserCanRent(userId);
+    await this.ensureScooterIsRentable(scooterId);
 
     const { startPrice, perMinutePrice } = await this._tariffService.get(
       userId
