@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  pg_db:
+    image: bitnami/postgresql:15.4.0
+    restart: on-failure
+    environment:
+      POSTGRESQL_USERNAME: postgres
+      POSTGRESQL_PASSWORD: postgres
+      POSTGRESQL_DATABASE: test
+    volumes:
+      - ../pg_db/init/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_HOST: pg_db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test
+    command: bash -c "yarn test || exit 0"
+    volumes:
+      - allure_results:/app/allure-results
+      - allure_reports:/app/allure-reports
+    depends_on:
+      pg_db:
+        condition: service_healthy
+
+  allure:
+    image: frankescobar/allure-docker-service:2.21.0
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: 1
+      KEEP_HISTORY: 1
+    ports:
+      - "5050:5050"
+    volumes:
+      - allure_results:/app/allure-results
+      - allure_reports:/app/default-reports
+    depends_on:
+      backend:
+        condition: service_completed_successfully
+
+volumes:
+  allure_results:
+  allure_reports:

@@ -7,10 +7,7 @@ class SubscriptionBuilder implements Builder<Subscription> {
   private _id: SubscriptionId = crypto.randomUUID() as SubscriptionId;
   private _title: string = "Subscription";
   private _price: number = crypto.randomInt(100, 100000);
-  private _duration: number = crypto.randomInt(
-    60 * 1000,
-    31 * 24 * 60 * 60 * 1000
-  );
+  private _duration: number = crypto.randomInt(60, 31 * 24 * 60 * 60);
 
   public withId(id: SubscriptionId) {
     this._id = id;

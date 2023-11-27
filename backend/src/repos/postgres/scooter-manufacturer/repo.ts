@@ -1,7 +1,12 @@
+import * as crypto from "crypto";
+
 import { DataAccessError } from "../../../errors/data-access";
 import { NotFoundError } from "../../../errors/not-found";
 import { IScooterManufacturerRepo } from "../../../interfaces/scooter-manufacturer-repo";
-import { ScooterManufacturerId } from "../../../models/scooter-manufacturer";
+import {
+  ScooterManufacturer,
+  ScooterManufacturerId,
+} from "../../../models/scooter-manufacturer";
 import { PostgresPool } from "../pool";
 import * as QUERIES from "./queries";
 import { ScooterManufacturerRow } from "./types";
@@ -12,6 +17,10 @@ class ScooterManufacturerPostgresRepo implements IScooterManufacturerRepo {
 
   public constructor(pool: PostgresPool) {
     this._pool = pool;
+  }
+
+  public nextId() {
+    return crypto.randomUUID() as ScooterManufacturerId;
   }
 
   public async getById(id: ScooterManufacturerId) {
@@ -31,6 +40,14 @@ class ScooterManufacturerPostgresRepo implements IScooterManufacturerRepo {
     }
 
     return parseScooterManufacturerRow(row);
+  }
+
+  public async save(scooterManufacturer: ScooterManufacturer) {
+    try {
+      await this._pool.query(QUERIES.INSERT, scooterManufacturer.toJSON());
+    } catch {
+      throw new DataAccessError("Не удалось сохранить производителя самокатов");
+    }
   }
 }
 

@@ -180,7 +180,13 @@ limit
   1
 `;
 
+const INSERT = `
+INSERT INTO pings (scooter_id, date, meta_info, location, battery_level, lock_state, lights_state)
+VALUES ($(scooterId), $(date), $(metaInfo), ST_Point($(location.longitude), $(location.latitude), 4326), $(batteryLevel), $(lockState), $(lightsState))
+`;
+
 export {
+  INSERT,
   SELECT_ALL_PAGINATED,
   SELECT_DISCHARGED_PAGINATED,
   SELECT_DISCHARGED_WITHIN_BOUNDS_PAGINATED,

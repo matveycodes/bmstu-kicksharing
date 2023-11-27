@@ -25,4 +25,11 @@ WHERE
     id = $(id)
 `;
 
-export { SELECT_ALL_PAGINATED, SELECT_BY_ID };
+const INSERT = `
+INSERT INTO restricted_zones (id, polygon, speed_limit)
+VALUES ($(id), ST_Polygon($(polygon)::geometry, 4326), $(speedLimit))
+ON CONFLICT (id) DO UPDATE
+SET id = $(id), polygon = ST_Polygon($(polygon)::geometry, 4326), speed_limit = $(speedLimit)
+`;
+
+export { INSERT, SELECT_ALL_PAGINATED, SELECT_BY_ID };

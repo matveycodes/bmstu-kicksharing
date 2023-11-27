@@ -31,7 +31,7 @@ const getMocks = () => {
 };
 
 describe("PurchaseService", () => {
-  describe("Покупка", () => {
+  describe("Покупка (create)", () => {
     it("Бросается исключение, если пользователь неактивен", async () => {
       // Arrange
       const { userRepo, purchaseService, subscriptionRepo } = getMocks();

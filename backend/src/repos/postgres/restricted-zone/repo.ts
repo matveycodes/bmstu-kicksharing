@@ -3,7 +3,10 @@ import * as crypto from "crypto";
 import { DataAccessError } from "../../../errors/data-access";
 import { NotFoundError } from "../../../errors/not-found";
 import { IRestrictedZoneRepo } from "../../../interfaces/restricted-zone-repo";
-import { RestrictedZoneId } from "../../../models/restricted-zone";
+import {
+  RestrictedZone,
+  RestrictedZoneId,
+} from "../../../models/restricted-zone";
 import { Bounds } from "../../../vo/bounds";
 import { PaginationRequest } from "../../../vo/pagination";
 import { PostgresPool } from "../pool";
@@ -69,6 +72,25 @@ class RestrictedZonePostgresRepo implements IRestrictedZoneRepo {
     }
 
     return parseRestrictedZoneRow(row);
+  }
+
+  public async save(restrictedZone: RestrictedZone) {
+    const polygon = restrictedZone.polygon
+      .map((point) => `${point.longitude} ${point.latitude}`)
+      .join(",");
+
+    const values = {
+      ...restrictedZone.toJSON(),
+      polygon: `LINESTRING(${polygon})`,
+    };
+
+    try {
+      await this._pool.query(QUERIES.INSERT, values);
+    } catch {
+      throw new DataAccessError(
+        "Не удалось сохранить зону ограничения скорости"
+      );
+    }
   }
 }
 

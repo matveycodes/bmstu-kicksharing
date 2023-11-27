@@ -57,9 +57,12 @@ class SubscriptionPostgresRepo implements ISubscriptionRepo {
     return parseSubscriptionRow(row);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async save(subscription: Subscription) {
-    throw "Not implemented";
+    try {
+      await this._pool.query(QUERIES.INSERT, subscription.toJSON());
+    } catch {
+      throw new DataAccessError("Не удалось сохранить подписку");
+    }
   }
 }
 

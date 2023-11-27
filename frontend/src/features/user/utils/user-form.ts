@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import { pickBy } from "lodash";
+import pickBy from "lodash/pickBy";
 
 import { User } from "../types/user";
 import { UserFormData } from "../types/user-form";

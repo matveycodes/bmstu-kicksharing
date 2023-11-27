@@ -1,7 +1,7 @@
 import { BookingBuilder } from "../../builders/booking";
 
 describe("Booking", () => {
-  describe("Длительность бронирования", () => {
+  describe("Длительность бронирования (duration)", () => {
     it("Корректно определяется длительность активного бронирования", () => {
       const booking = new BookingBuilder()
         .withDateStarted(new Date("2022-01-01T00:00:00"))

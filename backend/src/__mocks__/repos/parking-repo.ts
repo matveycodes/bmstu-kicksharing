@@ -46,6 +46,10 @@ class ParkingMockRepo implements IParkingRepo {
   public nextId() {
     return crypto.randomUUID() as ParkingId;
   }
+
+  public async save(parking: Parking) {
+    this._parkings.push(parking);
+  }
 }
 
 export { ParkingMockRepo };

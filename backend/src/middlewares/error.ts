@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
-import { toPath } from "lodash";
+import toPath from "lodash/toPath";
 import { ZodError } from "zod";
 
 import { BadStateError } from "../errors/bad-state";

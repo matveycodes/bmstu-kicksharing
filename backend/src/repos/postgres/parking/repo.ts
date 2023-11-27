@@ -3,7 +3,7 @@ import * as crypto from "crypto";
 import { DataAccessError } from "../../../errors/data-access";
 import { NotFoundError } from "../../../errors/not-found";
 import { IParkingRepo } from "../../../interfaces/parking-repo";
-import { ParkingId } from "../../../models/parking";
+import { Parking, ParkingId } from "../../../models/parking";
 import { Bounds } from "../../../vo/bounds";
 import { PaginationRequest } from "../../../vo/pagination";
 import { PostgresPool } from "../pool";
@@ -71,6 +71,14 @@ class ParkingPostgresRepo implements IParkingRepo {
     }
 
     return parseParkingRow(row);
+  }
+
+  public async save(parking: Parking) {
+    try {
+      await this._pool.query(QUERIES.INSERT, parking);
+    } catch {
+      throw new DataAccessError("Не удалось сохранить парковку");
+    }
   }
 }
 

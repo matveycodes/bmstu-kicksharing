@@ -52,4 +52,16 @@ WHERE
     id = $(id)
 `;
 
-export { SELECT_ALL_PAGINATED, SELECT_BY_ID, SELECT_WITHIN_BOUNDS_PAGINATED };
+const INSERT = `
+INSERT INTO parkings (id, location)
+VALUES ($(id), ST_Point($(location.longitude), $(location.latitude), 4326))
+ON CONFLICT (id) DO UPDATE
+SET id = $(id), location = ST_Point($(location.longitude), $(location.latitude), 4326)
+`;
+
+export {
+  INSERT,
+  SELECT_ALL_PAGINATED,
+  SELECT_BY_ID,
+  SELECT_WITHIN_BOUNDS_PAGINATED,
+};

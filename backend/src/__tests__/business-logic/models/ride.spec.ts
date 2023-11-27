@@ -1,7 +1,7 @@
 import { RideBuilder } from "../../builders/ride";
 
 describe("Ride", () => {
-  describe("Длительность поездки", () => {
+  describe("Длительность поездки (duration)", () => {
     it("Корректно определяется длительность активной поездки", () => {
       const ride = new RideBuilder()
         .withDateStarted(new Date("2022-01-01T00:00:00"))
@@ -27,7 +27,7 @@ describe("Ride", () => {
     });
   });
 
-  describe("Стоимость поездки", () => {
+  describe("Стоимость поездки (totalPrice)", () => {
     it("Корректно вычисляет общую стоимость поездки", () => {
       const ride = new RideBuilder()
         .withStartPrice(10)

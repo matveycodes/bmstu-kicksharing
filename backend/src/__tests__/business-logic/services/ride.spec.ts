@@ -58,7 +58,7 @@ const getMocks = () => {
 };
 
 describe("RideService", () => {
-  describe("Создание поездки", () => {
+  describe("Создание поездки (create)", () => {
     it("Бросается исключение, если пользователь неактивен", async () => {
       // Arrange
       const { userRepo, rideService, scooterRepo } = getMocks();
@@ -231,7 +231,7 @@ describe("RideService", () => {
     });
   });
 
-  describe("Завершение поездки", () => {
+  describe("Завершение поездки (finish)", () => {
     it("Бросается исключение, если поездка уже завершена", async () => {
       // Arrange
       const { rideService, rideRepo } = getMocks();

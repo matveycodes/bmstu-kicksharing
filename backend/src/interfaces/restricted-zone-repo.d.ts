@@ -12,6 +12,7 @@ interface IRestrictedZoneRepo {
     pagination: PaginationRequest
   ): Promise<PaginatedResponse<RestrictedZone>>;
   getById(id: RestrictedZoneId): Promise<RestrictedZone>;
+  save(restrictedZone: RestrictedZone): Promise<void>;
 }
 
 export { IRestrictedZoneRepo };

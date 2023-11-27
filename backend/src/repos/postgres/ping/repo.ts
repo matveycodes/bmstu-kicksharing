@@ -124,9 +124,12 @@ class PingPostgresRepo implements IPingRepo {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async save(ping: Ping) {
-    throw "Not implemented";
+    try {
+      await this._pool.query(QUERIES.INSERT, ping);
+    } catch {
+      throw new DataAccessError("Не удалось сохранить запись о состоянии");
+    }
   }
 }
 

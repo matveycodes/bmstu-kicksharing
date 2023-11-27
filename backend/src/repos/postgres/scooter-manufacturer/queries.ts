@@ -7,4 +7,11 @@ WHERE
     id = $(id)
 `;
 
-export { SELECT_BY_ID };
+const INSERT = `
+INSERT INTO scooter_manufacturers (id, title)
+VALUES ($(id), $(title))
+ON CONFLICT (id) DO UPDATE
+SET id = $(id), title = $(title)
+`;
+
+export { INSERT, SELECT_BY_ID };

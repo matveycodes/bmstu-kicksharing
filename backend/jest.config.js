@@ -2,8 +2,9 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "allure-jest/node",
+  modulePathIgnorePatterns: ["<rootDir>/dist/"],
   testEnvironmentOptions: {
     resultsDir: "./allure-results",
   },
-  testRegex: "(<rootDir>/__tests__/.*|)spec\\.ts?$",
+  testMatch: ["**/*.spec.ts"],
 };

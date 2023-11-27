@@ -1,4 +1,4 @@
-import { flatten } from "lodash";
+import flatten from "lodash/flatten";
 import { useMemo } from "react";
 
 import { usePurchasesPaginated } from "../hooks/usePurchasesPaginated";

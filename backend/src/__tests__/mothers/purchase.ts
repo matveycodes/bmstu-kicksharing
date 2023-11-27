@@ -1,10 +1,23 @@
+import dayjs from "dayjs";
+
 import { PurchaseBuilder } from "../builders/purchase";
 
 class PurchaseMother {
   public static anActivePurchase() {
-    const datePurchased = new Date();
-    const dateStarted = new Date(datePurchased);
-    const dateFinished = new Date(dateStarted.getTime() + 24 * 60 * 60 * 1000);
+    const datePurchased = dayjs().toDate();
+    const dateStarted = dayjs(datePurchased).toDate();
+    const dateFinished = dayjs(dateStarted).add(1, "week").toDate();
+
+    return new PurchaseBuilder()
+      .withDatePurchased(datePurchased)
+      .withDateStarted(dateStarted)
+      .withDateFinished(dateFinished);
+  }
+
+  public static aFinishedPurchase() {
+    const datePurchased = dayjs().subtract(1, "month").toDate();
+    const dateStarted = dayjs(datePurchased).toDate();
+    const dateFinished = dayjs(dateStarted).add(1, "week").toDate();
 
     return new PurchaseBuilder()
       .withDatePurchased(datePurchased)

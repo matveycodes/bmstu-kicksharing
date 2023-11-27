@@ -18,7 +18,7 @@ const getMocks = () => {
 };
 
 describe("UserService", () => {
-  describe("Обновление информации", () => {
+  describe("Обновление информации (update)", () => {
     it("Бросается исключение, если возраст меньше минимального", async () => {
       // Arrange
       jest.useFakeTimers({ now: new Date("2020-01-01") });

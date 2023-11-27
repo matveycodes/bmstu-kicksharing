@@ -20,7 +20,7 @@ const getMocks = () => {
 };
 
 describe("TariffService", () => {
-  describe("Получение тарифа", () => {
+  describe("Получение тарифа (get)", () => {
     it("Полная цена для пользователя без подписки", async () => {
       // Arrange
       const { tariffService, userRepo, settingRepo } = getMocks();

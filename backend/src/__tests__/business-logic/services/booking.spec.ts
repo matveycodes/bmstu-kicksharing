@@ -47,7 +47,7 @@ const getMocks = () => {
 };
 
 describe("BookingService", () => {
-  describe("Создание бронирования", () => {
+  describe("Создание бронирования (create)", () => {
     it("Бросается исключение, если пользователь неактивен", async () => {
       // Arrange
       const { userRepo, bookingService, scooterRepo } = getMocks();
@@ -222,7 +222,7 @@ describe("BookingService", () => {
     });
   });
 
-  describe("Завершение бронирования", () => {
+  describe("Завершение бронирования (cancel)", () => {
     it("Бросается исключение, если бронирование уже завершено", async () => {
       // Arrange
       const { bookingRepo, bookingService } = getMocks();

@@ -12,6 +12,7 @@ interface IParkingRepo {
     pagination: PaginationRequest
   ): Promise<PaginatedResponse<Parking>>;
   getById(id: ParkingId): Promise<Parking>;
+  save(parking: Parking): Promise<void>;
 }
 
 export { IParkingRepo };

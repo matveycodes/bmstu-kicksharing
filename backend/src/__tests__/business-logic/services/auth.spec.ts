@@ -25,7 +25,7 @@ const getMocks = () => {
 };
 
 describe("AuthService", () => {
-  describe("Запрос авторизации", () => {
+  describe("Запрос авторизации (request)", () => {
     it("Успешно создает запрос на авторизацию", async () => {
       // Arrange
       const { authService, totpRepo } = getMocks();
@@ -39,7 +39,7 @@ describe("AuthService", () => {
     });
   });
 
-  describe("Авторизация", () => {
+  describe("Авторизация (proceed)", () => {
     it("Бросается исключение при вводе неверного кода", async () => {
       // Arrange
       const { authService, totpRepo } = getMocks();
@@ -85,7 +85,7 @@ describe("AuthService", () => {
       // Assert
       const users = await userRepo.getAllPaginated({ page: 1, pageSize: 1 });
       expect(users).toHaveProperty("totalCount", 1);
-      expect(users.results[0]).toHaveProperty("phone", user.phone);
+      expect(users.results[0]).toEqual(user);
     });
   });
 });
